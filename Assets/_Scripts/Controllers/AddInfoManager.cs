@@ -11,7 +11,7 @@ public class AddInfoManager : MonoBehaviour
     private UserData userData;
     
     [SerializeField]
-    public TMP_InputField  nameField, ageField, weightField;
+    public TMP_InputField  nameField, ageField, weightField, heightField, sexField;
     
     void Start()
     {
@@ -32,10 +32,18 @@ public class AddInfoManager : MonoBehaviour
            {
                 userData.setAge(int.Parse(ageField.text));
            }
-           else
+           else if(field == "weight")
            {
                 userData.setWeight(float.Parse(weightField.text));
            }
+           else if(field == "height")
+            {
+                userData.setHeight(int.Parse(heightField.text));
+            }
+           else if(field == "sex")
+            {
+                userData.setSex(sexField.text);
+            }
              
         }
         catch (Exception e)
@@ -48,6 +56,14 @@ public class AddInfoManager : MonoBehaviour
             {
                 userData.setWeight(0);
             }
+            else if (field == "height")
+            {
+                userData.setHeight(0);
+            }
+            else if (field == "sex")
+            {
+                userData.setSex("");
+            }
             Debug.LogException(e);
         }
 
@@ -58,11 +74,15 @@ public class AddInfoManager : MonoBehaviour
         Validate("name");
         Validate("age");
         Validate("weight");
+        Validate("height");
+        Validate("sex");
 
-        if (userData.getName() != "" && userData.getWeight() != 0 && userData.getAge() != 0)
+
+
+        if (userData.getName() != "" && userData.getWeight() != 0 && userData.getAge() != 0 && userData.getHeight() != 0 && userData.getSex() != "")
         {
             userData.updateUserData();
-            // Debug.Log(age.ToString() + " " + weight.ToString() + " " + name);
+            Debug.Log(userData.getName() + " " + userData.getWeight().ToString() + " " + userData.getAge().ToString());
 
             SceneManager.LoadScene("SpinMobileMainScene");
             GeneralController.getGeneralControllerInstance().getState().handle();
