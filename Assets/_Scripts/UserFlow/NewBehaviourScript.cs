@@ -2,16 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractiveObject : MonoBehaviour
+public class NewBehaviourScript : MonoBehaviour
 {
+    [SerializeField] private GameObject previousPage;
     [SerializeField] private Color inactiveColor;
     [SerializeField] private Color gazedAtColor;
-    [SerializeField] private GameObject nextButton;
-    [SerializeField] private bool isParent;
-
     public bool isGazed = false;
-    
+
     private MeshRenderer myRenderer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,10 +21,10 @@ public class InteractiveObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
-    public void OnPointerEnter()
+        public void OnPointerEnter()
     {
         GazeAt(true);
         isGazed = true;
@@ -42,30 +41,28 @@ public class InteractiveObject : MonoBehaviour
         if(gazing)
         {   
             myRenderer.material.color = gazedAtColor;
-            StartCoroutine(RemoveAfterSeconds(2));
+            StartCoroutine(GoToPageAfterSeconds(2));
         } else
         {
             myRenderer.material.color = inactiveColor;
         }
     }
 
-    IEnumerator RemoveAfterSeconds (int seconds){
-        yield return new WaitForSeconds(seconds);
+    IEnumerator GoToPageAfterSeconds (int seconds){
+    yield return new WaitForSeconds(seconds);
 
-        if(isGazed){
-            for (int i = 0; i < gameObject.transform.childCount; i++){
-                var child = gameObject.transform.GetChild(i).gameObject;
-                if (child != null)
-                    child.SetActive(false);
-            }
+    var father = gameObject.transform.parent.gameObject;
 
-            if(isParent == false){
-                gameObject.transform.parent.gameObject.SetActive(false);
-            }
+    father.SetActive(false);
 
-            gameObject.SetActive(false);
-            
-            nextButton.SetActive(true);
+    if(isGazed){
+        for (int i = 0; i < father.transform.childCount; i++){
+            var child = father.transform.GetChild(i).gameObject;
+            if (child != null)
+                child.SetActive(false);
+        }
+
+        father.SetActive(false);
         }
     }
 }
