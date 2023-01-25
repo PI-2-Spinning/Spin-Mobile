@@ -6,7 +6,7 @@ public class InteractiveObject : MonoBehaviour
 {
     [SerializeField] private Color inactiveColor;
     [SerializeField] private Color gazedAtColor;
-    [SerializeField] private GameObject nextButton;
+    [SerializeField] private GameObject nextFlow;
     [SerializeField] private bool isParent;
 
     public bool isGazed = false;
@@ -53,19 +53,32 @@ public class InteractiveObject : MonoBehaviour
         yield return new WaitForSeconds(seconds);
 
         if(isGazed){
-            for (int i = 0; i < gameObject.transform.childCount; i++){
-                var child = gameObject.transform.GetChild(i).gameObject;
-                if (child != null)
-                    child.SetActive(false);
-            }
+            if(nextFlow != null){
+                for (int i = 0; i < gameObject.transform.childCount; i++){
+                    var child = gameObject.transform.GetChild(i).gameObject;
+                    if (child != null)
+                        child.SetActive(false);
+                }
 
-            if(isParent == false){
-                gameObject.transform.parent.gameObject.SetActive(false);
-            }
+                if(isParent == false){
+                    gameObject.transform.parent.gameObject.SetActive(false);
+                }
 
-            gameObject.SetActive(false);
-            
-            nextButton.SetActive(true);
+                gameObject.SetActive(false);
+                
+                nextFlow.SetActive(true);
+                for (int i = 0; i < nextFlow.transform.childCount; i++){
+                    var child = nextFlow.transform.GetChild(i).gameObject;
+                    child.SetActive(true);
+                    if (child != null){
+                        for (int j = 0; j < child.transform.childCount; j++){
+                            var childOfChild = child.transform.GetChild(j).gameObject;
+                            childOfChild.SetActive(true);
+                        }
+                    }
+
+                }
+            }
         }
     }
 }
