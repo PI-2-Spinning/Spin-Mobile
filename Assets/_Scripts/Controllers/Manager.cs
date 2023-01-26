@@ -60,4 +60,10 @@ public class Manager : MonoBehaviour
             isConnected = BluetoothService.StartBluetoothConnection(deviceName);
         }
     }
+
+    public void OnDestroy()
+    {
+        Debug.Log("Parando o VR agora!!!");
+        XRController.ExitVR();
+    }
 }
