@@ -84,7 +84,7 @@ public class AddInfoManager : MonoBehaviour
             userData.updateUserData();
             Debug.Log(userData.getName() + " " + userData.getWeight().ToString() + " " + userData.getAge().ToString());
 
-            SceneManager.LoadScene("SpinMobileMainScene");
+            SceneManager.LoadScene("Circuit");
             GeneralController.getGeneralControllerInstance().getState().handle();
             //StartCoroutine(XRController.StartXR());
             XRController.EnterVR();
