@@ -34,4 +34,10 @@ public class Manager : MonoBehaviour
             }*/
         }
     }
+
+    public void OnDestroy()
+    {
+        Debug.Log("Parando o VR agora!!!");
+        XRController.ExitVR();
+    }
 }
