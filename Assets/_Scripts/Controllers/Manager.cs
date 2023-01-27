@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Google.XR.Cardboard;
@@ -5,12 +6,17 @@ using UnityEngine;
 
 public class Manager : MonoBehaviour
 {
+    string deviceName = "ESP32";
+    bool isConnected = false;
+
     // Start is called before the first frame update
     void Start()
     {  
         XRController.initialSetup();
         GeneralController context = GeneralController.getGeneralControllerInstance();
         Debug.Log("s");
+
+        BluetoothService.CreateBluetoothObject();
     }
 
     // Update is called once per frame
@@ -33,5 +39,31 @@ public class Manager : MonoBehaviour
                 Debug.Log("Entered");
             }*/
         }
+
+        if (isConnected)
+        {
+            try
+            {
+                string dataIn = BluetoothService.ReadFromBluetooth();
+                if (dataIn.Length > 0)
+                {
+                    Debug.Log(dataIn);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
+        }
+        else
+        {
+            isConnected = BluetoothService.StartBluetoothConnection(deviceName);
+        }
+    }
+
+    public void OnDestroy()
+    {
+        Debug.Log("Parando o VR agora!!!");
+        XRController.ExitVR();
     }
 }

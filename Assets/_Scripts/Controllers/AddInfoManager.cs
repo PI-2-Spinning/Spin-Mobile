@@ -9,15 +9,22 @@ using TMPro;
 public class AddInfoManager : MonoBehaviour
 {
     private UserData userData;
+  
     
     [SerializeField]
     public TMP_InputField  nameField, ageField, weightField, heightField, sexField;
     
     void Start()
     {
+
         Screen.orientation = ScreenOrientation.Portrait;
         userData = GeneralController.getGeneralControllerInstance().getUserData();
         //Next();
+    }
+
+    void OnDestroy()
+    {
+        Debug.Log("Destruindo");
     }
 
     public void Validate(string field)
