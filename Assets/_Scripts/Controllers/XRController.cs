@@ -52,8 +52,8 @@ public static class XRController
         //XRGeneralSettings.Instance.Manager.DeinitializeLoader();
         Debug.Log("XR deinitialized.");
 
-        _mainCamera.ResetAspect();
-        _mainCamera.fieldOfView = _defaultFieldOfView;
+        //_mainCamera.ResetAspect();
+        //_mainCamera.fieldOfView = _defaultFieldOfView;
         Debug.Log("HERE");
     }
 
