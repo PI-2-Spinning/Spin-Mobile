@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Google.XR.Cardboard;
 using UnityEngine;
+using UnityEngine.Android;
 
 public class Manager : MonoBehaviour
 {
+    string[] BT_PERMISSIONS = {"android.permission.BLUETOOTH_CONNECT", "android.permission.BLUETOOTH_SCAN"};
     string deviceName = "ESP32";
     bool isConnected = false;
     int time = 2;
@@ -13,6 +15,7 @@ public class Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {  
+        Permission.RequestUserPermissions(BT_PERMISSIONS);
         XRController.initialSetup();
         GeneralController context = GeneralController.getGeneralControllerInstance();
         Debug.Log("s");
