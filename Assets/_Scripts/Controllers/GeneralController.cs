@@ -11,7 +11,7 @@ public class GeneralController
     public bool isConnected = false;
     private BluetoothService btService;
     string[] BT_PERMISSIONS = {"android.permission.BLUETOOTH_CONNECT", "android.permission.BLUETOOTH_SCAN"};
-    string deviceName = "ESP32";
+    string deviceName = "Spin";
 
     private GeneralController(){
         btService = new BluetoothService();

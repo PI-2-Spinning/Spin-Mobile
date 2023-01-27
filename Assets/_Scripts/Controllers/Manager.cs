@@ -7,6 +7,8 @@ using UnityEngine;
 public class Manager : MonoBehaviour
 {
     int time = 2;
+    int resistence = 10;
+
     BluetoothService btService;
     GeneralController context;
 
@@ -58,9 +60,12 @@ public class Manager : MonoBehaviour
 
             if(Time.time >= time) {
                 System.Random resistenceGenerator = new System.Random();
-                float resistence = (float)(resistenceGenerator.NextDouble() * 100);
-                btService.WritetoBluetooth(resistence.ToString() + "\n");
-                time += 2;
+                btService.WritetoBluetooth(resistence.ToString() + "\n" );
+                if(resistence < 100) 
+                {
+                    resistence += 5;
+                }
+                time += 10;
             }
         }
         else
