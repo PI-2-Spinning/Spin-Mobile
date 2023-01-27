@@ -8,6 +8,7 @@ public class Manager : MonoBehaviour
 {
     string deviceName = "ESP32";
     bool isConnected = false;
+    int time = 2;
 
     // Start is called before the first frame update
     void Start()
@@ -54,6 +55,13 @@ public class Manager : MonoBehaviour
             {
                 Debug.LogException(e);
             }
+
+            if(Time.time >= time) {
+                System.Random resistenceGenerator = new System.Random();
+                float resistence = (float)(resistenceGenerator.NextDouble() * 100);
+                BluetoothService.WritetoBluetooth(resistence.ToString() + "\n");
+                time += 2;
+            }
         }
         else
         {
@@ -64,6 +72,7 @@ public class Manager : MonoBehaviour
     public void OnDestroy()
     {
         Debug.Log("Parando o VR agora!!!");
+        BluetoothService.StopBluetoothConnection();
         XRController.ExitVR();
     }
 }
