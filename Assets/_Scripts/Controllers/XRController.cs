@@ -7,11 +7,9 @@ using Google.XR.Cardboard;
 
 public static class XRController 
 {
-    public static Camera _mainCamera;
     public static float _defaultFieldOfView = 60.0f;
 
     public static void initialSetup(){
-        _mainCamera = Camera.main;
 
         // Configures the app to not shut down the screen and sets the brightness to maximum.
         // Brightness control is expected to work only in iOS, see:

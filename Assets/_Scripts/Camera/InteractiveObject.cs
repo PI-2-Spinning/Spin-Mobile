@@ -78,10 +78,11 @@ public class InteractiveObject : MonoBehaviour
                             childOfChild.SetActive(true);
                         }
                     }
-
                 }
             }
             else if (toSimulate){
+                Debug.Log("Carregando mapa");
+                GeneralController.getGeneralControllerInstance().getState().handle();
                 SceneManager.LoadScene("TheSpinSSPath");
             }
         }

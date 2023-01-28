@@ -22,11 +22,6 @@ public class AddInfoManager : MonoBehaviour
         //Next();
     }
 
-    void OnDestroy()
-    {
-        Debug.Log("Destruindo");
-    }
-
     public void Validate(string field)
     {
         try
@@ -84,17 +79,19 @@ public class AddInfoManager : MonoBehaviour
         Validate("height");
         Validate("sex");
 
-
-
         if (userData.getName() != "" && userData.getWeight() != 0 && userData.getAge() != 0 && userData.getHeight() != 0 && userData.getSex() != "")
         {
             userData.updateUserData();
             Debug.Log(userData.getName() + " " + userData.getWeight().ToString() + " " + userData.getAge().ToString());
 
-            SceneManager.LoadScene("SpinMobileMainScene");
-            GeneralController.getGeneralControllerInstance().getState().handle();
-            //StartCoroutine(XRController.StartXR());
-            XRController.EnterVR();
+            SceneManager.LoadScene("SpinMobileMainScene");            
         }
+    }
+
+    public void OnDestroy()
+    {
+        GeneralController.getGeneralControllerInstance().getState().handle();
+        Debug.Log("Form Ativando o VR agora!!!");
+        XRController.EnterVR();
     }
 }

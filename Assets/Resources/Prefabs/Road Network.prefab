@@ -60947,7 +60947,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   terrainSplatTextures:
-  - Splat 1 - Ground
+  - Splat 1 - grassLayer
+  - Splat 2 - Pebbles_A_TerrainLayer
+  - Splat 3 - Snow_TerrainLayer
   activeTerrain: {fileID: 0}
   activeTerrainY: 0
   selectedTerrain: 0
@@ -61126,15 +61128,16 @@ MonoBehaviour:
   OOCOCQQDQDScript: {fileID: 0}
   ODCOQCQCOOElement: -1
   OQQOCODOOQ: -1
-  OCQCQQDDOO: {fileID: 0}
+  OCQCQQDDOO: {fileID: 834535841384771604}
   ODQCQCQDDQ: {fileID: 0}
-  OOQDQCOQOQ: -1
+  OOQDQCOQOQ: 0
   selectedRoadSOMarker: -1
   selectedMarkerNode: -1
   selectedMarkerNodes: 
   selectedMarkerSONode: -1
   selectedMarkerSONodes: 
-  selectedObjects: []
+  selectedObjects:
+  - {fileID: 0}
   selectedExitRoad: -1
   newRoadFlag: 0
   roadTypeUpdateFlag: 1

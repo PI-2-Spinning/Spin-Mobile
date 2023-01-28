@@ -12,13 +12,14 @@ public class CameraPointer : MonoBehaviour
     private float speedCam = 120f;
     public Transform playerBody;
     public float xRotation = 0f;
-    
+    private Camera camera;    
 
     // Start is called before the first frame update
     void Start()
     {
         #if UNITY_EDITOR
         Cursor.lockState = CursorLockMode.Locked;
+        camera = Camera.main;
         #endif
     }
 
@@ -38,6 +39,8 @@ public class CameraPointer : MonoBehaviour
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         playerBody.Rotate(Vector3.up * mouseX);
         #else
+
+        if (playerBody != null) playerBody.Rotate(transform.eulerAngles * Time.deltaTime);
 
         // Casts ray towards camera's forward direction, to detect if a GameObject is being gazed
         // at.

@@ -4942,7 +4942,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d477f280aaaf8574289b2608d8fabf3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerBody: {fileID: 1021284372}
+  playerBody: {fileID: 0}
   xRotation: 0
 --- !u!20 &2131271399 stripped
 Camera:

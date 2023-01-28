@@ -1,25 +1,35 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Google.XR.Cardboard;
 using UnityEngine;
 
-public class GeneralController 
+public class GeneralController : MonoBehaviour
 {
     private static GeneralController controllerInstance;
     private UserData userData;
     private State state;
-    public bool isConnected;
+    string deviceName = "ESP32";
+    public bool isConnected = false;
 
     private GeneralController(){
+        XRController.initialSetup();
         userData = new UserData();
         state = new Starting(userData);
+        BluetoothService.CreateBluetoothObject();
+        DontDestroyOnLoad(this);
     }
 
     public static GeneralController getGeneralControllerInstance(){
         if (controllerInstance == null){
-            controllerInstance = new GeneralController();
+            controllerInstance = new GeneralController();             
         }
         
         return controllerInstance;
+    }
+
+    public void doConnect(){
+        isConnected = BluetoothService.StartBluetoothConnection(deviceName);
     }
 
     public State getState(){
