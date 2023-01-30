@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731704, g: 0.13414727, b: 0.121078536, a: 1}
+  m_IndirectSpecularColor: {r: 0.12723452, g: 0.13407159, b: 0.12105903, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -593,6 +593,7 @@ MonoBehaviour:
   gazedAtColor: {r: 0.003921569, g: 0.1764706, b: 0.909804, a: 1}
   nextFlow: {fileID: 1189762167}
   isParent: 1
+  toSimulate: 0
   isGazed: 0
 --- !u!1 &142839566
 GameObject:
@@ -2174,6 +2175,7 @@ MonoBehaviour:
   gazedAtColor: {r: 0.003921569, g: 0.1764706, b: 0.909804, a: 1}
   nextFlow: {fileID: 0}
   isParent: 0
+  toSimulate: 0
   isGazed: 0
 --- !u!65 &854905464
 BoxCollider:
@@ -2611,6 +2613,7 @@ MonoBehaviour:
   gazedAtColor: {r: 0.003921569, g: 0.1764706, b: 0.9098039, a: 0}
   nextFlow: {fileID: 40919614}
   isParent: 0
+  toSimulate: 0
   isGazed: 0
 --- !u!65 &1076467006
 BoxCollider:
@@ -3312,6 +3315,7 @@ MonoBehaviour:
   gazedAtColor: {r: 0.003921569, g: 0.1764706, b: 0.9098039, a: 0}
   nextFlow: {fileID: 0}
   isParent: 0
+  toSimulate: 1
   isGazed: 0
 --- !u!65 &1509881923
 BoxCollider:
@@ -3766,6 +3770,7 @@ MonoBehaviour:
   gazedAtColor: {r: 0.003921569, g: 0.1764706, b: 0.909804, a: 1}
   nextFlow: {fileID: 0}
   isParent: 1
+  toSimulate: 0
   isGazed: 0
 --- !u!65 &1710119735
 BoxCollider:
@@ -4094,6 +4099,7 @@ MonoBehaviour:
   gazedAtColor: {r: 0, g: 0.09019608, b: 1, a: 0}
   nextFlow: {fileID: 134402169}
   isParent: 0
+  toSimulate: 0
   isGazed: 0
 --- !u!65 &1793089059
 BoxCollider:
@@ -4401,6 +4407,7 @@ MonoBehaviour:
   gazedAtColor: {r: 0, g: 0.09019608, b: 1, a: 0}
   nextFlow: {fileID: 1189762167}
   isParent: 0
+  toSimulate: 0
   isGazed: 0
 --- !u!65 &1985308839
 BoxCollider:
@@ -4932,9 +4939,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 223974226}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 756dc9bcd85f65945b0d19f901ec1e1d, type: 3}
+  m_Script: {fileID: 11500000, guid: d477f280aaaf8574289b2608d8fabf3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerBody: {fileID: 0}
+  xRotation: 0
 --- !u!20 &2131271399 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 3538146176878142884, guid: c42e34bf9eeeeb146a8516ea77a27a81, type: 3}
