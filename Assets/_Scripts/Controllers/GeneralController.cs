@@ -11,7 +11,12 @@ public class GeneralController
 
     private GeneralController(){
         userData = new UserData();
-        state = new Starting(userData);
+        if (userData == null) {
+            state = new Starting(userData);
+        }
+        else {
+            state = new Simulating();
+        }
     }
 
     public static GeneralController getGeneralControllerInstance(){

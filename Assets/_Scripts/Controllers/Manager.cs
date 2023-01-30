@@ -12,9 +12,10 @@ public class Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {  
+        Debug.Log("Início Game");
         XRController.initialSetup();
         GeneralController context = GeneralController.getGeneralControllerInstance();
-        Debug.Log("s");
+        Debug.Log(context.getState().stateName);
 
         BluetoothService.CreateBluetoothObject();
     }
@@ -22,6 +23,14 @@ public class Manager : MonoBehaviour
     // Update is called once per frame
     public void Update()
     {
+        GeneralController context = GeneralController.getGeneralControllerInstance();
+        State state = context.getState();
+
+        if (state.stateName == "simulating") {
+            Simulating circuit = (Simulating)state;
+            circuit.updateRegistry();
+        }
+
         if (XRController._isVrModeEnabled())
         {
             if (Api.IsCloseButtonPressed)
