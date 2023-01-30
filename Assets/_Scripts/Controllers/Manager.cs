@@ -6,23 +6,20 @@ using UnityEngine;
 
 public class Manager : MonoBehaviour
 {
-    int time = 2;
+    int time = -1;
+    int resistence = 5;
     BluetoothService btService;
-    GeneralController context;
 
-    // Start is called before the first frame update
     void Start()
-    {  
-        XRController.initialSetup();
-        context = GeneralController.getGeneralControllerInstance();
-        Debug.Log("s");
-
-        btService = context.getBtService();
+    {       
+        btService = GeneralController.controllerInstance.getBtService();
+        Debug.Log("context done!");
     }
 
-    // Update is called once per frame
     public void Update()
-    {
+    {   
+        //Debug.Log(GeneralController.controllerInstance.getState().stateName);
+
         if (XRController._isVrModeEnabled())
         {
             if (Api.IsCloseButtonPressed)
@@ -33,15 +30,8 @@ public class Manager : MonoBehaviour
 
             Api.UpdateScreenParams();
         }
-        else
-        {
-            /*if(GeneralController.getGeneralControllerInstance().getState().stateName == "idle"){
-                XRController.EnterVR();
-                Debug.Log("Entered");
-            }*/
-        }
-
-        if (context.getIsConnected())
+        
+        if (GeneralController.controllerInstance.isConnected)
         {
             try
             {
@@ -56,22 +46,27 @@ public class Manager : MonoBehaviour
                 Debug.LogException(e);
             }
 
-            if(Time.time >= time) {
-                System.Random resistenceGenerator = new System.Random();
-                float resistence = (float)(resistenceGenerator.NextDouble() * 100);
+            if ((time == -1 || Time.time >= time) && GeneralController.controllerInstance.getState().stateName != "Simulating") {
                 btService.WritetoBluetooth(resistence.ToString() + "\n");
-                time += 2;
+                if (resistence < 100)
+                {
+                    resistence += 5;
+                }
+                time = (int)Time.time + 10;
             }
         }
         else
         {
-            context.connectBluetooth();
+            //Debug.Log("Connecting...");
+            GeneralController.controllerInstance.doConnect();
         }
     }
 
     public void OnDestroy()
     {
-        Debug.Log("Parando o VR agora!!!");
-        XRController.ExitVR();
+        if(GeneralController.controllerInstance.getState().stateName != "Simulating"){
+            Debug.Log("Manager Parando o VR agora!!!");
+            XRController.ExitVR();
+        }
     }
 }
