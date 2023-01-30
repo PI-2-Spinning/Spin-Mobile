@@ -6,15 +6,15 @@ using UnityEngine;
 
 public class Manager : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {       
-        GeneralController context = GeneralController.getGeneralControllerInstance();
         Debug.Log("context done!");
     }
 
-     public void Update()
-    {
+    public void Update()
+    {   
+        Debug.Log(GeneralController.controllerInstance.getState().stateName);
+
         if (XRController._isVrModeEnabled())
         {
             if (Api.IsCloseButtonPressed)
@@ -26,7 +26,7 @@ public class Manager : MonoBehaviour
             Api.UpdateScreenParams();
         }
         
-        if (GeneralController.getGeneralControllerInstance().isConnected)
+        if (GeneralController.controllerInstance.isConnected)
         {
             try
             {
@@ -44,13 +44,13 @@ public class Manager : MonoBehaviour
         else
         {
             Debug.Log("Connecting...");
-            GeneralController.getGeneralControllerInstance().doConnect();
+            GeneralController.controllerInstance.doConnect();
         }
     }
 
     public void OnDestroy()
     {
-        if(GeneralController.getGeneralControllerInstance().getState().stateName != "Simulating"){
+        if(GeneralController.controllerInstance.getState().stateName != "Simulating"){
             Debug.Log("Manager Parando o VR agora!!!");
             XRController.ExitVR();
         }

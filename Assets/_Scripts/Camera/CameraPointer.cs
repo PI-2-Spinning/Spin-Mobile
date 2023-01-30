@@ -40,8 +40,6 @@ public class CameraPointer : MonoBehaviour
         playerBody.Rotate(Vector3.up * mouseX);
         #else
 
-        if (playerBody != null) playerBody.Rotate(transform.eulerAngles * Time.deltaTime);
-
         // Casts ray towards camera's forward direction, to detect if a GameObject is being gazed
         // at.
         RaycastHit hit;

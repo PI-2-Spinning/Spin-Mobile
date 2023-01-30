@@ -18,7 +18,7 @@ public class AddInfoManager : MonoBehaviour
     {
 
         Screen.orientation = ScreenOrientation.Portrait;
-        userData = GeneralController.getGeneralControllerInstance().getUserData();
+        userData = GeneralController.controllerInstance.getUserData();
         //Next();
     }
 
@@ -90,7 +90,7 @@ public class AddInfoManager : MonoBehaviour
 
     public void OnDestroy()
     {
-        GeneralController.getGeneralControllerInstance().getState().handle();
+        GeneralController.controllerInstance.getState().handle();
         Debug.Log("Form Ativando o VR agora!!!");
         XRController.EnterVR();
     }
