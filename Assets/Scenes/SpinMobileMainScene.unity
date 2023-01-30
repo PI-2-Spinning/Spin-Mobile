@@ -2125,7 +2125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inactiveColor: {r: 0, g: 0.7411765, b: 1, a: 1}
   gazedAtColor: {r: 0.003921569, g: 0.1764706, b: 0.909804, a: 1}
-  nextFlow: {fileID: 0}
+  nextFlow: {fileID: 854905462}
   isParent: 0
   isGazed: 0
 --- !u!65 &854905464

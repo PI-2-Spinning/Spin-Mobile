@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InteractiveObject : MonoBehaviour
 {
@@ -78,6 +79,21 @@ public class InteractiveObject : MonoBehaviour
                     }
 
                 }
+            } else {
+                for (int i = 0; i < gameObject.transform.childCount; i++){
+                    var child = gameObject.transform.GetChild(i).gameObject;
+                    if (child != null)
+                        child.SetActive(false);
+                }
+
+                if(isParent == false){
+                    gameObject.transform.parent.gameObject.SetActive(false);
+                }
+
+                gameObject.SetActive(false);
+
+                SceneManager.LoadScene("InsertInfo");
+
             }
         }
     }
