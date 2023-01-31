@@ -15,7 +15,7 @@ public class GeneralController
             state = new Starting(userData);
         }
         else {
-            state = new Simulating();
+            state = new idle();
         }
     }
 

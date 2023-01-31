@@ -14,6 +14,15 @@ public class Registry
         maxSpeed = 0;
     }
 
+    public Registry(float averageSpeedHistory, float maxSpeedHistory, float travelledDistanceHistory, float travelledTimeHistory){
+        Debug.Log("Criou o Registro vindo do cache" + averageSpeedHistory + ", " + maxSpeedHistory + ", " + travelledDistanceHistory + ", " + travelledTimeHistory);
+
+        averageSpeed = averageSpeedHistory;
+        maxSpeed = maxSpeedHistory;
+        travelledDistance = travelledDistanceHistory;
+        travelledTime = travelledTimeHistory;
+    }
+
     public float getTravelledDistance(){
         return travelledDistance;
     }
