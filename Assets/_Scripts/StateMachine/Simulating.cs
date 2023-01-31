@@ -2,17 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Simulating : MonoBehaviour
+public class Simulating : State
 {
     // Start is called before the first frame update
-    void Start()
-    {
-        
+   public Simulating(){
+        stateName = "Simulating";
+        Debug.Log("Simulating...");
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    public override void handle(){
         
     }
 }
