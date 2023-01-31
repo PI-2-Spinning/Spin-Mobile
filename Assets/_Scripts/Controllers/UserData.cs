@@ -44,10 +44,18 @@ public class UserData
         PlayerPrefs.SetString("history", history);
     }
 
-    public void getInfos(){
-        XRController.ExitVR();
-        Screen.orientation = ScreenOrientation.Portrait;
-        SceneManager.LoadScene("InsertInfo");
+    public bool getInfos(){
+        if(playerAge == 0 || playerName == "" || playerWeight == 0){
+            XRController.ExitVR();
+            Screen.orientation = ScreenOrientation.Portrait;
+            SceneManager.LoadScene("InsertInfo");
+            return false;
+        }
+        else{
+            Debug.Log("User: " + playerName);
+        }
+
+        return true;        
     }
 
     public string getName(){

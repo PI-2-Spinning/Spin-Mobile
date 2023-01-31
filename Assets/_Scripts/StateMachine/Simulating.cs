@@ -14,6 +14,7 @@ public class Simulating : State
 
     public Simulating(){
         stateName = "simulating";
+        Debug.Log("Simulating...");
 
         distance = 0;
         time = 0;

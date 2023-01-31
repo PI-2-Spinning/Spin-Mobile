@@ -6,10 +6,6 @@ using UnityEngine;
 
 public class Manager : MonoBehaviour
 {
-    string deviceName = "ESP32";
-    bool isConnected = false;
-
-    // Start is called before the first frame update
     void Start()
     {  
         Debug.Log("Início Game");
@@ -18,12 +14,13 @@ public class Manager : MonoBehaviour
         Debug.Log(context.getState().stateName);
 
         BluetoothService.CreateBluetoothObject();
+        Debug.Log("context done!");
     }
 
-    // Update is called once per frame
     public void Update()
     {
-        GeneralController context = GeneralController.getGeneralControllerInstance();
+        Debug.Log(GeneralController.controllerInstance.getState().stateName);
+        GeneralController context = GeneralController.controllerInstance;
         State state = context.getState();
 
         if (state.stateName == "simulating") {
@@ -41,15 +38,8 @@ public class Manager : MonoBehaviour
 
             Api.UpdateScreenParams();
         }
-        else
-        {
-            /*if(GeneralController.getGeneralControllerInstance().getState().stateName == "idle"){
-                XRController.EnterVR();
-                Debug.Log("Entered");
-            }*/
-        }
-
-        if (isConnected)
+        
+        if (GeneralController.controllerInstance.isConnected)
         {
             try
             {
@@ -66,13 +56,16 @@ public class Manager : MonoBehaviour
         }
         else
         {
-            isConnected = BluetoothService.StartBluetoothConnection(deviceName);
+            Debug.Log("Connecting...");
+            GeneralController.controllerInstance.doConnect();
         }
     }
 
     public void OnDestroy()
     {
-        Debug.Log("Parando o VR agora!!!");
-        XRController.ExitVR();
+        if(GeneralController.controllerInstance.getState().stateName != "Simulating"){
+            Debug.Log("Manager Parando o VR agora!!!");
+            XRController.ExitVR();
+        }
     }
 }
