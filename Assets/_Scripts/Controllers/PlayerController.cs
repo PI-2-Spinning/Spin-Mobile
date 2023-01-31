@@ -5,18 +5,58 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
-    private CharacterController controller;
+    public float speed = 0f;
+    public Transform route;
+    public float threshold = 1f;
 
-    public float speed = 12f;
+    private Rigidbody rb;
+    Vector3 m_EulerAngle;
+    Vector3 newPosition;
+
+    bool inRoute;
+    int i = 1;
+
+    private void Start() {
+        rb = GetComponent<Rigidbody>();
+        m_EulerAngle = new Vector3(0f, 1f, 0f);
+        inRoute = true;
+    }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        if (inRoute)
+        {
+            MovePlayer();
+        }
+    }
 
-        Vector3 move = transform.right * x + transform.forward * z;
+    void MovePlayer()
+    {
+        var target = route.GetChild(i);
+        float targetDistance = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(target.position.x, target.position.z));
+        if (targetDistance > threshold)
+        {
+            // move to target
+            float target_relative_x = target.position.x - transform.position.x;
+            float target_relative_z = target.position.z - transform.position.z;
+            float tot = Mathf.Abs(target_relative_x) + Mathf.Abs(target_relative_z);
+            newPosition = new Vector3(target_relative_x / tot, 0f, target_relative_z / tot);
+            rb.MovePosition(transform.position + newPosition * speed * Time.fixedDeltaTime);
 
-        controller.Move(move * speed * Time.deltaTime);
+            // rotate to target
+            Vector3 relative = transform.InverseTransformPoint(target.position);
+            float angle = Mathf.Atan2(relative.x, relative.z) * Mathf.Rad2Deg;
+            Quaternion deltaRotation = Quaternion.Euler(m_EulerAngle * angle * (speed/10f) * Time.fixedDeltaTime);
+            rb.MoveRotation(rb.rotation * deltaRotation);
+        }
+        else if (target.name == "p_end")
+        {
+            inRoute = false;
+        }
+        else
+        {
+            i += 1;
+        }
     }
 }
