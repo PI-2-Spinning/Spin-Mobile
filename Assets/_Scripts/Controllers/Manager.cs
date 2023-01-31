@@ -9,10 +9,12 @@ public class Manager : MonoBehaviour
     int time = -1;
     int resistence = 5;
     BluetoothService btService;
+    UserData userData;
 
     void Start()
     {       
         btService = GeneralController.controllerInstance.getBtService();
+        userData = GeneralController.controllerInstance.getUserData();
         Debug.Log("context done!");
     }
 
@@ -39,6 +41,11 @@ public class Manager : MonoBehaviour
                 if (dataIn.Length > 0)
                 {
                     Debug.Log(dataIn);
+
+                    int RPM = (int)dataIn.Substring(6);
+                    float speed = RPM * 2 * Math.PI * userData.getRim() / 60;
+
+                    Debug.Log(speed.ToString() + " m/s");
                 }
             }
             catch (Exception e)
