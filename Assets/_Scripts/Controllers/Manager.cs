@@ -19,8 +19,15 @@ public class Manager : MonoBehaviour
     }
 
     public void Update()
-    {   
+    {
         //Debug.Log(GeneralController.controllerInstance.getState().stateName);
+        GeneralController context = GeneralController.controllerInstance;
+        State state = context.getState();
+
+        if (state.stateName == "simulating") {
+            Simulating circuit = (Simulating)state;
+            circuit.updateRegistry();
+        }
 
         if (XRController._isVrModeEnabled())
         {
@@ -33,7 +40,7 @@ public class Manager : MonoBehaviour
             Api.UpdateScreenParams();
         }
         
-        if (GeneralController.controllerInstance.isConnected)
+        /*if (GeneralController.controllerInstance.isConnected)
         {
             try
             {
@@ -48,20 +55,20 @@ public class Manager : MonoBehaviour
                 Debug.LogException(e);
             }
 
-            /*if ((time == -1 || Time.time >= time) && GeneralController.controllerInstance.getState().stateName != "Simulating") {
+            if ((time == -1 || Time.time >= time) && GeneralController.controllerInstance.getState().stateName != "Simulating") {
                 btService.WritetoBluetooth(resistence.ToString() + "\n");
                 if (resistence < 100)
                 {
                     resistence += 5;
                 }
                 time = (int)Time.time + 10;
-            }*/
+            }
         }
         else
         {
             //Debug.Log("Connecting...");
             GeneralController.controllerInstance.doConnect();
-        }
+        }*/
     }
 
     public void OnDestroy()

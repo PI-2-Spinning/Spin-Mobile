@@ -15,6 +15,7 @@ public class UserData
     private float bicycleRim;
     private float category;
     private int points;
+    private string history;
 
     public UserData(){
         playerName = PlayerPrefs.GetString("name", "");
@@ -25,6 +26,10 @@ public class UserData
         bicycleRim = PlayerPrefs.GetFloat("rim", 0.622f);
         category = PlayerPrefs.GetFloat("category", 0f);
         points = PlayerPrefs.GetInt("points", 0);
+        history = PlayerPrefs.GetString("history", "");
+
+        History auxhistory = new History();
+        auxhistory.convertStringToListRegistry();
     }
 
     public void updateUserData(){
@@ -36,6 +41,7 @@ public class UserData
         PlayerPrefs.SetFloat("rim", bicycleRim);
         PlayerPrefs.SetFloat("category", category);
         PlayerPrefs.SetInt("points", points);
+        PlayerPrefs.SetString("history", history);
     }
 
     public bool getInfos(){
@@ -113,5 +119,13 @@ public class UserData
 
     public void setPoints(int _points){
         points = _points;
+    }
+
+    public string getHistory(){
+        return history;
+    }
+
+    public void setHistory(string historyString){
+        history = historyString;
     }
 }
