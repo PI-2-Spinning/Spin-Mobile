@@ -22,7 +22,7 @@ public class UserData
         playerHeight = PlayerPrefs.GetInt("height", 0);
         playerWeight = PlayerPrefs.GetFloat("weight", 0f);
         playerAge = PlayerPrefs.GetInt("age", 0);
-        bicycleRim = PlayerPrefs.GetFloat("rim", 0.15f);
+        bicycleRim = PlayerPrefs.GetFloat("rim", 0.622f);
         category = PlayerPrefs.GetFloat("category", 0f);
         points = PlayerPrefs.GetInt("points", 0);
     }

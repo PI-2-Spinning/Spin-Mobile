@@ -10,10 +10,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float speed;
     BluetoothService btService;
 
+    private float playerWeight, bicycleRim, angle, g = 9.807f;
+
     void Start()
     {       
         btService = GeneralController.controllerInstance.getBtService();
-        Debug.Log("context done!");
+        playerWeight = (GeneralController.controllerInstance.getUserData().getWeight() + 12f) * g;
+        bicycleRim = GeneralController.controllerInstance.getUserData().getRim();
+        
+        Debug.Log("Player context done!");
     }    
 
     // Update is called once per frame
@@ -41,36 +46,33 @@ public class PlayerController : MonoBehaviour
         
         if (GeneralController.controllerInstance.isConnected)
         {
-            try
-            {
-                string dataIn = btService.ReadFromBluetooth();
-                if (dataIn.Length > 0)
-                {
-                    Debug.Log(dataIn + " " + dataIn.Substring(6));
+            if(GeneralController.controllerInstance.getState().stateName != "Simulating"){
+                try{
                     
-                    speed = float.Parse(dataIn.Substring(6));
-                    speed = (speed < 0) ? 0 : speed;
-                    speed = 2f * 3.6f * 3.14f* 0.19f * speed / 60;
+                    float resistencia = playerWeight * (float) Math.Sin(angle) + 0.65f * playerWeight * (float) Math.Cos(angle);
+                    resistencia = (resistencia * -100)/1040;
+                    resistencia = (resistencia > 100) ? 100 : resistencia;
+                    resistencia = (resistencia < 0) ? 0 : resistencia;
+                    btService.WritetoBluetooth(resistencia.ToString() + "\n");
+                
+                    string dataIn = btService.ReadFromBluetooth();
+                    if (dataIn.Length > 0){
+                        Debug.Log(dataIn);                    
+                        float rpmRolamento = float.Parse(dataIn.Substring(6));
 
-                    Debug.Log("km/h: " + speed);
+                        float rpmPneu = (0.025f/bicycleRim) * rpmRolamento;
+                        Debug.Log("RPM Pneu: " + rpmPneu);
 
-                    transform.Translate(Vector3.forward * speed / 3.6f * Time.deltaTime);
-                    
+                        speed =  2f * 3.6f * (float) Math.PI * bicycleRim * rpmPneu / 60f;
+                        speed = (speed < 0) ? 0 : speed;
+
+                        Debug.Log("km/h: " + speed);
+
+                        transform.Translate(Vector3.forward * speed / 3.6f * Time.deltaTime);
+                    }
                 }
+                catch (Exception e){ Debug.LogException(e); }
             }
-            catch (Exception e)
-            {
-                Debug.LogException(e);
-            }
-
-            /*if ((time == -1 || Time.time >= time) && GeneralController.controllerInstance.getState().stateName != "Simulating") {
-                btService.WritetoBluetooth(resistence.ToString() + "\n");
-                if (resistence < 100)
-                {
-                    resistence += 5;
-                }
-                time = (int)Time.time + 10;
-            }*/
         }
         else
         {
@@ -78,5 +80,9 @@ public class PlayerController : MonoBehaviour
             GeneralController.controllerInstance.doConnect();
         }
         #endif
+    }
+
+    void OnControllerColliderHit(ControllerColliderHit hit) {
+        angle = Vector3.Angle(Vector3.up, hit.normal); //Calc angle between normal and character
     }
 }

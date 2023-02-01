@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class Manager : MonoBehaviour
 {
-    int time = -1;
-    int resistence = 5;
+    //int time = -1;
+    //int resistence = 5;
     BluetoothService btService;
     UserData userData;
 
@@ -41,11 +41,6 @@ public class Manager : MonoBehaviour
                 if (dataIn.Length > 0)
                 {
                     Debug.Log(dataIn);
-
-                    int RPM = (int)dataIn.Substring(6);
-                    float speed = RPM * 2 * Math.PI * userData.getRim() / 60;
-
-                    Debug.Log(speed.ToString() + " m/s");
                 }
             }
             catch (Exception e)
@@ -53,14 +48,14 @@ public class Manager : MonoBehaviour
                 Debug.LogException(e);
             }
 
-            if ((time == -1 || Time.time >= time) && GeneralController.controllerInstance.getState().stateName != "Simulating") {
+            /*if ((time == -1 || Time.time >= time) && GeneralController.controllerInstance.getState().stateName != "Simulating") {
                 btService.WritetoBluetooth(resistence.ToString() + "\n");
                 if (resistence < 100)
                 {
                     resistence += 5;
                 }
                 time = (int)Time.time + 10;
-            }
+            }*/
         }
         else
         {
