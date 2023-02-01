@@ -11,6 +11,6 @@ public class Finishing : State
     
     public override void handle()
     {
-        GeneralController context = GeneralController.getGeneralControllerInstance();
+        GeneralController context = GeneralController.controllerInstance;
     }
 }

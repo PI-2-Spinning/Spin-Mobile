@@ -49,6 +49,6 @@ public class Simulating : State
 
     public override void handle()
     {
-        GeneralController context = GeneralController.getGeneralControllerInstance();
+        GeneralController context = GeneralController.controllerInstance;
     }
 }
