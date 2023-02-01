@@ -93,5 +93,6 @@ public class AddInfoManager : MonoBehaviour
         GeneralController.controllerInstance.getState().handle();
         Debug.Log("Form Ativando o VR agora!!!");
         XRController.EnterVR();
+        Screen.orientation = ScreenOrientation.LandscapeLeft;
     }
 }

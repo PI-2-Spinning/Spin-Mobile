@@ -8,18 +8,18 @@ using UnityEngine;
 public class CameraPointer : MonoBehaviour
 {
     private const float _maxDistance = 10;
-    private GameObject _gazedAtObject = null;
+    private GameObject _gazedAtObject;
     private float speedCam = 120f;
     public Transform playerBody;
     public float xRotation = 0f;
-    private Camera camera;    
+    //private Camera camera;    
 
     // Start is called before the first frame update
     void Start()
     {
         #if UNITY_EDITOR
         Cursor.lockState = CursorLockMode.Locked;
-        camera = Camera.main;
+        //camera = Camera.main;
         #endif
     }
 
