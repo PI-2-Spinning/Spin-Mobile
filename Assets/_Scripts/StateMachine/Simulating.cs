@@ -13,7 +13,7 @@ public class Simulating : State
     private float velocity;
 
     public Simulating(){
-        stateName = "simulating";
+        stateName = "Simulating";
         Debug.Log("Simulating...");
 
         distance = 0;

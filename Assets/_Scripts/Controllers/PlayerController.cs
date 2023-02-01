@@ -46,14 +46,17 @@ public class PlayerController : MonoBehaviour
         
         if (GeneralController.controllerInstance.isConnected)
         {
-            if(GeneralController.controllerInstance.getState().stateName != "Simulating"){
+            if(GeneralController.controllerInstance.getState().stateName == "Simulating"){
                 try{
                     
-                    float resistencia = playerWeight * (float) Math.Sin(angle) + 0.65f * playerWeight * (float) Math.Cos(angle);
+                    float resistencia = playerWeight * (int) Math.Sin(angle) + 0.65f * playerWeight * (float) Math.Cos(angle);
                     resistencia = (resistencia * -100)/1040;
                     resistencia = (resistencia > 100) ? 100 : resistencia;
                     resistencia = (resistencia < 0) ? 0 : resistencia;
-                    btService.WritetoBluetooth(resistencia.ToString() + "\n");
+
+                    int resistenciaI = (int) resistencia;
+                    Debug.Log(resistencia + "  " + resistenciaI);
+                    btService.WritetoBluetooth(resistenciaI.ToString() + "\n");
                 
                     string dataIn = btService.ReadFromBluetooth();
                     if (dataIn.Length > 0){
@@ -67,9 +70,9 @@ public class PlayerController : MonoBehaviour
                         speed = (speed < 0) ? 0 : speed;
 
                         Debug.Log("km/h: " + speed);
-
-                        transform.Translate(Vector3.forward * speed / 3.6f * Time.deltaTime);
                     }
+                        
+                    transform.Translate(Vector3.forward * speed / 3.6f * Time.deltaTime); 
                 }
                 catch (Exception e){ Debug.LogException(e); }
             }
