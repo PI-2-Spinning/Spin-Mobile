@@ -7,7 +7,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     public float speed = 0f;
     public Transform route;
-    public float threshold = 1f;
+    public Vector3 CenterOfMass2;
+    private float threshold = 1f;
 
     private Rigidbody rb;
     Vector3 m_EulerAngle;
@@ -25,10 +26,17 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        rb.centerOfMass = CenterOfMass2;
         if (inRoute)
         {
             MovePlayer();
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawSphere(transform.position + transform.rotation * CenterOfMass2, 0.1f);
     }
 
     void MovePlayer()
@@ -50,7 +58,7 @@ public class PlayerController : MonoBehaviour
             Quaternion deltaRotation = Quaternion.Euler(m_EulerAngle * angle * (speed/10f) * Time.fixedDeltaTime);
             rb.MoveRotation(rb.rotation * deltaRotation);
         }
-        else if (target.name == "p_end")
+        else if (i == route.childCount - 1)
         {
             inRoute = false;
         }

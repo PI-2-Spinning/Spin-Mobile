@@ -6,21 +6,10 @@ public class DrawRoute : MonoBehaviour
 {
     private void OnDrawGizmos()
     {
-        int i = 0;
-        while(true)
+        for(int i = 0; i < transform.childCount - 1; i++)
         {
             var aux = transform.GetChild(i);
-            i += 1;
-            if (aux.name == "p_start")
-            {
-                continue;
-            }
-            if (aux.name == "p_end")
-            {
-                break;
-            }
-
-            Gizmos.DrawLine(aux.position, transform.GetChild(i).position);
+            Gizmos.DrawLine(aux.position, transform.GetChild(i+1).position);
         }
     }
 }
