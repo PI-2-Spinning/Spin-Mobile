@@ -9,6 +9,7 @@ public class InteractiveObject : MonoBehaviour
     [SerializeField] private Color gazedAtColor;
     [SerializeField] private GameObject nextFlow;
     [SerializeField] private bool isParent;
+    [SerializeField] private bool toSimulate = false;
 
     public bool isGazed = false;
     
@@ -77,7 +78,6 @@ public class InteractiveObject : MonoBehaviour
                             childOfChild.SetActive(true);
                         }
                     }
-
                 }
             } else {
                 for (int i = 0; i < gameObject.transform.childCount; i++){
@@ -94,6 +94,11 @@ public class InteractiveObject : MonoBehaviour
 
                 SceneManager.LoadScene("InsertInfo");
 
+            }
+            else if (toSimulate){
+                Debug.Log("Carregando mapa");
+                GeneralController.controllerInstance.getState().handle();
+                SceneManager.LoadScene("TheSpinSSPath");
             }
         }
     }

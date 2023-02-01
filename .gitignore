@@ -11,6 +11,11 @@
 /[Mm]emoryCaptures/
 /[Aa]ssets/Samples
 /Spin_BackUpThisFolder_ButDontShipItWithYourGame
+/SpinCircuit_BackUpThisFolder_ButDontShipItWithYourGame
+/SpinCircuit_BurstDebugInformation_DoNotShip
+/Spin_BurstDebugInformation_DoNotShip
+/SpinBluetooth_BackUpThisFolder_ButDontShipItWithYourGame/
+/UserSettings
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 /[Aa]ssets/Samples.meta

@@ -1,22 +1,5 @@
-//-----------------------------------------------------------------------
-// <copyright file="CameraPointer.cs" company="Google LLC">
-// Copyright 2020 Google LLC
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-// </copyright>
-//-----------------------------------------------------------------------
-
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -25,13 +8,38 @@ using UnityEngine;
 public class CameraPointer : MonoBehaviour
 {
     private const float _maxDistance = 10;
-    private GameObject _gazedAtObject = null;
+    private GameObject _gazedAtObject;
+    private float speedCam = 120f;
+    public Transform playerBody;
+    public float xRotation = 0f;
+    //private Camera camera;    
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        #if UNITY_EDITOR
+        Cursor.lockState = CursorLockMode.Locked;
+        //camera = Camera.main;
+        #endif
+    }
 
     /// <summary>
     /// Update is called once per frame.
     /// </summary>
     public void Update()
     {
+        #if UNITY_EDITOR
+        float mouseX = speedCam * Input.GetAxis("Mouse X") * Time.deltaTime;
+        float mouseY = speedCam * Input.GetAxis("Mouse Y") * Time.deltaTime;
+
+        xRotation -= mouseY;
+        //yaw = Mathf.Clamp(yaw, -90f, 90f);
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        
+        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        playerBody.Rotate(Vector3.up * mouseX);
+        #else
+
         // Casts ray towards camera's forward direction, to detect if a GameObject is being gazed
         // at.
         RaycastHit hit;
@@ -58,5 +66,6 @@ public class CameraPointer : MonoBehaviour
         {
             _gazedAtObject?.SendMessage("OnPointerClick");
         }
+        #endif
     }
 }

@@ -5,15 +5,15 @@ using UnityEngine;
 public class BluetoothService
 {
 
-    private static AndroidJavaClass unityPlayer;
-    private static AndroidJavaObject activity;
-    private static AndroidJavaObject context;
-    private static AndroidJavaClass unity3dbluetoothplugin;
-    private static AndroidJavaObject BluetoothConnector;
+    private AndroidJavaClass unityPlayer;
+    private AndroidJavaObject activity;
+    private AndroidJavaObject context;
+    private AndroidJavaClass unity3dbluetoothplugin;
+    private AndroidJavaObject BluetoothConnector;
 
 
     // creating an instance of the bluetooth class from the plugin 
-    public static void CreateBluetoothObject()
+    public void CreateBluetoothObject()
     {
         if (Application.platform == RuntimePlatform.Android)
         {
@@ -27,7 +27,7 @@ public class BluetoothService
 
     // starting bluetooth connection with device named "DeviceName"
     // print the status on the screen using native android Toast
-    public static bool StartBluetoothConnection(string DeviceName)
+    public bool StartBluetoothConnection(string DeviceName)
     {
         if (Application.platform == RuntimePlatform.Android)
         {
@@ -43,6 +43,7 @@ public class BluetoothService
             }
             catch (Exception e)
             {
+                Debug.LogException(e);
                 BluetoothConnector.Call("PrintOnScreen", context, connectionStatus);
                 return false;
             }
@@ -52,7 +53,7 @@ public class BluetoothService
 
     // should be called inside OnApplicationQuit
     // stop connection with the bluetooth device
-    public static void StopBluetoothConnection()
+    public void StopBluetoothConnection()
     {
 
         if (Application.platform == RuntimePlatform.Android)
@@ -65,13 +66,14 @@ public class BluetoothService
             }
             catch (Exception e)
             {
+                Debug.LogException(e);
                 BluetoothConnector.Call("PrintOnScreen", context, "stop connction error");
             }
         }
     }
 
     // write data as a string to the bluetooth device
-    public static void WritetoBluetooth(string data)
+    public void WritetoBluetooth(string data)
     {
         if (Application.platform == RuntimePlatform.Android)
         {
@@ -83,6 +85,7 @@ public class BluetoothService
             }
             catch (Exception e)
             {
+                Debug.LogException(e);
                 BluetoothConnector.Call("PrintOnScreen", context, "write data error");
             }
         }
@@ -91,7 +94,7 @@ public class BluetoothService
 
     //read data from the bluetooth device
     // if there is an error or there is no data coming, this method will return "" as an output
-    public static string ReadFromBluetooth()
+    public string ReadFromBluetooth()
     {
         string data = "";
         if (Application.platform == RuntimePlatform.Android)
@@ -103,6 +106,7 @@ public class BluetoothService
             }
             catch (Exception e)
             {
+                Debug.LogException(e);
                 BluetoothConnector.Call("PrintOnScreen", context, "read data error");
                 return "";
             }

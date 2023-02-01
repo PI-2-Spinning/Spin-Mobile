@@ -10,6 +10,6 @@ public class Idle : State
     }
 
     public override void handle(){
-
+        GeneralController.controllerInstance.changeState(new Simulating());
     }
 }
