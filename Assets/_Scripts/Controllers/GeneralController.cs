@@ -22,7 +22,7 @@ public class GeneralController : MonoBehaviour
         BluetoothService.CreateBluetoothObject();*/
     }
 
-    private void Awake()
+    void Awake()
     {
         if (controllerInstance != null && controllerInstance != this)
         {
