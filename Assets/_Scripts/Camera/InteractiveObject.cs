@@ -79,7 +79,7 @@ public class InteractiveObject : MonoBehaviour
                         }
                     }
                 }
-            } else {
+            } else if (nextFlow == null && toSimulate == false) {
                 for (int i = 0; i < gameObject.transform.childCount; i++){
                     var child = gameObject.transform.GetChild(i).gameObject;
                     if (child != null)
@@ -94,8 +94,7 @@ public class InteractiveObject : MonoBehaviour
 
                 SceneManager.LoadScene("InsertInfo");
 
-            }
-            else if (toSimulate){
+            } else if (toSimulate) {
                 Debug.Log("Carregando mapa");
                 GeneralController.controllerInstance.getState().handle();
                 SceneManager.LoadScene("TheSpinSSPath");
