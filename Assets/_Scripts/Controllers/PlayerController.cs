@@ -53,7 +53,15 @@ public class PlayerController : MonoBehaviour
             rb.MovePosition(transform.position + newPosition * speed * Time.fixedDeltaTime);
 
             // rotate to target
-            Vector3 relative = transform.InverseTransformPoint(target.position);
+            Vector3 relative;
+            if (targetDistance < threshold + 10 && i < route.childCount - 1)
+            {
+                relative = transform.InverseTransformPoint(route.GetChild(i+1).position);
+            }
+            else
+            {
+                relative = transform.InverseTransformPoint(target.position);
+            }
             float angle = Mathf.Atan2(relative.x, relative.z) * Mathf.Rad2Deg;
             Quaternion deltaRotation = Quaternion.Euler(m_EulerAngle * angle * (speed/10f) * Time.fixedDeltaTime);
             rb.MoveRotation(rb.rotation * deltaRotation);
