@@ -19,10 +19,8 @@ public class History {
         listRegistry.Add(registry);
     }
 
-    public void convertStringToListRegistry() {
-        string testeString = "10,20,30,40;50,60,70,80;90,91,92,93";
-
-        string[] listaTesteString = testeString.Split(';');
+    public void convertStringToListRegistry(string cacheHistorytring) {
+        string[] listaTesteString = cacheHistorytring.Split(';');
 
         foreach (var registryString in listaTesteString){
             string[] listRegistryValue = registryString.Split(',');

@@ -28,8 +28,8 @@ public class UserData
         points = PlayerPrefs.GetInt("points", 0);
         history = PlayerPrefs.GetString("history", "");
 
-        History auxhistory = new History();
-        auxhistory.convertStringToListRegistry();
+        // History auxhistory = new History();
+        // auxhistory.convertStringToListRegistry(history);
     }
 
     public void updateUserData(){
