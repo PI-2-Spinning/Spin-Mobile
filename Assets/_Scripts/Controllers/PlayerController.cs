@@ -22,10 +22,12 @@ public class PlayerController : MonoBehaviour
     bool inRoute;
     int i = 1;
 
-    private void Start() {
+    void Start() {
+        
         btService = GeneralController.controllerInstance.getBtService();
         playerWeight = (GeneralController.controllerInstance.getUserData().getWeight() + 12f) * g;
         bicycleRim = GeneralController.controllerInstance.getUserData().getRim();
+
         rb = GetComponent<Rigidbody>();
         m_EulerAngle = new Vector3(0f, 1f, 0f);
         inRoute = true;
@@ -33,62 +35,64 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Player context done!");
     }  
 
-    // Update is called once per frame
+      // Update is called once per frame
     void FixedUpdate(){
-        // rb.centerOfMass = CenterOfMass2;
+          rb.centerOfMass = CenterOfMass2;
 
-        if (XRController._isVrModeEnabled())
-        {
-            if (Api.IsCloseButtonPressed)
-            {
-                XRController.ExitVR();
-                Application.Quit();
-            }
+         if (inRoute)
+         {
+             MovePlayer();
+         }
 
-            Api.UpdateScreenParams();
-        }
+         if (XRController._isVrModeEnabled())
+         {
+             if (Api.IsCloseButtonPressed)
+             {
+                 XRController.ExitVR();
+                 Application.Quit();
+             }
+
+             Api.UpdateScreenParams();
+         }
         
-        if (GeneralController.controllerInstance.isConnected)
-        {
-            if(GeneralController.controllerInstance.getState().stateName == "Simulating"){
-                try{
-                    float resistencia = playerWeight * (int) Math.Sin(angle) + 0.65f * playerWeight * (float) Math.Cos(angle);
-                    resistencia = (resistencia * -100)/1040;
-                    resistencia = (resistencia > 100) ? 100 : resistencia;
-                    resistencia = (resistencia < 0) ? 0 : resistencia;
+         if (GeneralController.controllerInstance.isConnected)
+         {
+             if(GeneralController.controllerInstance.getState().stateName == "Simulating"){
+                 try{
+                     float resistencia = playerWeight * (int) Math.Sin(angle) + 0.65f * playerWeight * (float) Math.Cos(angle);
+                     resistencia = (resistencia * -100)/1040;
+                     resistencia = (resistencia > 100) ? 100 : resistencia;
+                     resistencia = (resistencia < 0) ? 0 : resistencia;
 
-                    int resistenciaI = (int) resistencia;
-                    Debug.Log(resistencia + "  " + resistenciaI);
-                    btService.WritetoBluetooth(resistenciaI.ToString() + "\n");
+                     int resistenciaI = (int) resistencia;
+                     Debug.Log(resistencia + "  " + resistenciaI);
+                     btService.WritetoBluetooth(resistenciaI.ToString() + "\n");
 
-                    string dataIn = btService.ReadFromBluetooth();
-                    if (dataIn.Length > 0){
-                        Debug.Log(dataIn);                    
-                        float rpmRolamento = float.Parse(dataIn.Substring(6));
+                     string dataIn = btService.ReadFromBluetooth();
+                     if (dataIn.Length > 0){
+                         Debug.Log(dataIn);                    
+                         float rpmRolamento = float.Parse(dataIn.Substring(6));
 
-                        float rpmPneu = (0.025f/bicycleRim) * rpmRolamento;
-                        Debug.Log("RPM Pneu: " + rpmPneu);
+                         float rpmPneu = (0.025f/bicycleRim) * rpmRolamento;
+                         Debug.Log("RPM Pneu: " + rpmPneu);
 
-                        speed =  2f * 3.6f * (float) Math.PI * bicycleRim * rpmPneu / 60f;
-                        speed = (speed < 0) ? 0 : speed;
+                         speed =  2f * 3.6f * (float) Math.PI * bicycleRim * rpmPneu / 60f;
+                         speed = (speed < 0) ? 0 : speed;
 
-                        Debug.Log("km/h: " + speed);
-                    }
+                         Debug.Log("km/h: " + speed);
+                     }
 
-                    // transform.Translate(Vector3.forward * speed / 3.6f * Time.deltaTime);
-                    if (inRoute)
-                    {
-                        MovePlayer();
-                    }
-                }
-                catch (Exception e){ Debug.LogException(e); }
-            }
-        }
-        else
-        {
-            //Debug.Log("Connecting...");
-            GeneralController.controllerInstance.doConnect();
-        }
+                       //transform.Translate(Vector3.forward * speed / 3.6f * Time.deltaTime);
+                   
+                 }
+                 catch (Exception e){ Debug.LogException(e); }
+             }
+         }
+         else
+         {
+              Debug.Log("Connecting...");
+             GeneralController.controllerInstance.doConnect();
+         }
     }
 
     private void OnDrawGizmos()
@@ -103,14 +107,14 @@ public class PlayerController : MonoBehaviour
         float targetDistance = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(target.position.x, target.position.z));
         if (targetDistance > threshold)
         {
-            // move to target
+             // move to target
             float target_relative_x = target.position.x - transform.position.x;
             float target_relative_z = target.position.z - transform.position.z;
             float tot = Mathf.Abs(target_relative_x) + Mathf.Abs(target_relative_z);
             newPosition = new Vector3(target_relative_x / tot, 0f, target_relative_z / tot);
             rb.MovePosition(transform.position + newPosition * speed * Time.fixedDeltaTime);
 
-            // rotate to target
+             // rotate to target
             Vector3 relative;
             if (targetDistance < threshold + 10 && i < route.childCount - 1)
             {
@@ -135,6 +139,6 @@ public class PlayerController : MonoBehaviour
     }
 
     void OnControllerColliderHit(ControllerColliderHit hit) {
-        angle = Vector3.Angle(Vector3.up, hit.normal); //Calc angle between normal and character
+        angle = Vector3.Angle(Vector3.up, hit.normal); // Calc angle between normal and character
     }
 }
