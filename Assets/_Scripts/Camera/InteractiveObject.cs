@@ -79,8 +79,22 @@ public class InteractiveObject : MonoBehaviour
                         }
                     }
                 }
-            }
-            else if (toSimulate){
+            } else if (nextFlow == null && toSimulate == false) {
+                for (int i = 0; i < gameObject.transform.childCount; i++){
+                    var child = gameObject.transform.GetChild(i).gameObject;
+                    if (child != null)
+                        child.SetActive(false);
+                }
+
+                if(isParent == false){
+                    gameObject.transform.parent.gameObject.SetActive(false);
+                }
+
+                gameObject.SetActive(false);
+
+                SceneManager.LoadScene("InsertInfo");
+
+            } else if (toSimulate) {
                 Debug.Log("Carregando mapa");
                 GeneralController.controllerInstance.getState().handle();
                 SceneManager.LoadScene("TheSpinSSPath");

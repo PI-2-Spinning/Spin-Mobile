@@ -9,7 +9,7 @@ public class Simulating : State
     private Registry registry;
 
     public Simulating(){
-        stateName = "simulating";
+        stateName = "Simulating";
         Debug.Log("Simulating...");
 
         registry = new Registry();
