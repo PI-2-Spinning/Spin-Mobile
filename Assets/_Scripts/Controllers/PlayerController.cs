@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
         btService = GeneralController.controllerInstance.getBtService();
         playerWeight = (GeneralController.controllerInstance.getUserData().getWeight() + 12f) * g;
         bicycleRim = GeneralController.controllerInstance.getUserData().getRim();
+
+        InvokeRepeating("updateSimulatingRegistry", .01f, 1f);
         
         Debug.Log("Player context done!");
     }    
@@ -80,6 +82,13 @@ public class PlayerController : MonoBehaviour
             GeneralController.controllerInstance.doConnect();
         }
         #endif
+    }
+
+    void updateSimulatingRegistry() {
+        State state = GeneralController.controllerInstance.getState();
+        Simulating stateSimulating = (Simulating)state;
+
+        stateSimulating.updateRegistry(speed);
     }
 
     void OnControllerColliderHit(ControllerColliderHit hit) {

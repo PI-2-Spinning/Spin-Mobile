@@ -8,37 +8,27 @@ public class Simulating : State
 {
     private Registry registry;
 
-    private float distance;
-    private float time;
-    private float velocity;
-
     public Simulating(){
         stateName = "simulating";
         Debug.Log("Simulating...");
 
-        distance = 0;
-        time = 0;
-
         registry = new Registry();
     }
 
-    public void updateRegistry() {
+    public void updateRegistry(float speed) {
         Debug.Log("updating registry");
 
-        distance += generateRandomNumber(2, 5);
-        time += 1;
-
-        registry.setTravelledDistance(distance);
-        registry.setTravelledTime(time);
-        registry.setAverageSpeed();
+        registry.setAverageSpeed(speed);
+        registry.setTravelledTime();
 
         float travelledDistance = registry.getTravelledDistance();
         float travelledTime = registry.getTravelledTime();
-        float velocity = registry.getAverageSpeed();
+        float averageSpeed = registry.getAverageSpeed();
 
         Debug.Log("Distancia Percorrida: " + travelledDistance);
         Debug.Log("Tempo Percorrido: " + travelledTime);
-        Debug.Log("Velocidade: " + velocity);
+        Debug.Log("Velocidade Momentanea: " + speed);
+        Debug.Log("Velocidade Média" + averageSpeed);
     }
 
     public int generateRandomNumber(int lower, int upper) {
