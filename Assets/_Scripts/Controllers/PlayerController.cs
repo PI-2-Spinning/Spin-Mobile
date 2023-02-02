@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
 
     // Update is called once per frame
     void FixedUpdate(){
-        rb.centerOfMass = CenterOfMass2;
+        // rb.centerOfMass = CenterOfMass2;
 
         if (XRController._isVrModeEnabled())
         {
