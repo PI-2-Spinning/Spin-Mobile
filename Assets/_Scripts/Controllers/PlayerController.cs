@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     private float playerWeight, bicycleRim, angle, g = 9.807f;
     public float speed = 0f;
     public Transform route;
+    public Transform backWheel;
+    public Transform frontWheel;
     public Vector3 CenterOfMass2;
     private float threshold = 1f;
 
@@ -19,15 +21,22 @@ public class PlayerController : MonoBehaviour
     Vector3 m_EulerAngle;
     Vector3 newPosition;
 
+    float maxAngle = 0f;
+
     bool inRoute;
     int i = 1;
 
     void Start() {
-        
+        #if !UNITY_EDITOR
         btService = GeneralController.controllerInstance.getBtService();
         playerWeight = (GeneralController.controllerInstance.getUserData().getWeight() + 12f) * g;
         bicycleRim = GeneralController.controllerInstance.getUserData().getRim();
+        #endif
 
+        #if UNITY_EDITOR
+        playerWeight = 80;
+        bicycleRim = 0.622f;
+        #endif
         rb = GetComponent<Rigidbody>();
         m_EulerAngle = new Vector3(0f, 1f, 0f);
         inRoute = true;
@@ -37,15 +46,10 @@ public class PlayerController : MonoBehaviour
 
       // Update is called once per frame
     void FixedUpdate(){
-          rb.centerOfMass = CenterOfMass2;
+        rb.centerOfMass = CenterOfMass2;
 
-         if (inRoute)
-         {
-             MovePlayer();
-         }
-
-         if (XRController._isVrModeEnabled())
-         {
+        if (XRController._isVrModeEnabled())
+        {
              if (Api.IsCloseButtonPressed)
              {
                  XRController.ExitVR();
@@ -53,19 +57,21 @@ public class PlayerController : MonoBehaviour
              }
 
              Api.UpdateScreenParams();
-         }
+        }
         
-         if (GeneralController.controllerInstance.isConnected)
-         {
-             if(GeneralController.controllerInstance.getState().stateName == "Simulating"){
+        if (GeneralController.controllerInstance.isConnected)
+        {
+             if(GeneralController.controllerInstance.getState().stateName == "Simulating")
+             {
                  try{
-                     float resistencia = playerWeight * (int) Math.Sin(angle) + 0.65f * playerWeight * (float) Math.Cos(angle);
-                     resistencia = (resistencia * -100)/1040;
+                     // float resistencia = playerWeight * (int) Math.Sin(angle) + 0.65f * playerWeight * (float) Math.Cos(angle);
+                     // resistencia = (resistencia * 100)/117;
+                     float resistencia = angle/27 * playerWeight * 2.5f;
                      resistencia = (resistencia > 100) ? 100 : resistencia;
                      resistencia = (resistencia < 0) ? 0 : resistencia;
 
                      int resistenciaI = (int) resistencia;
-                     Debug.Log(resistencia + "  " + resistenciaI);
+                     Debug.Log("Resistencia: " + resistencia + "  " + resistenciaI);
                      btService.WritetoBluetooth(resistenciaI.ToString() + "\n");
 
                      string dataIn = btService.ReadFromBluetooth();
@@ -82,24 +88,32 @@ public class PlayerController : MonoBehaviour
                          Debug.Log("km/h: " + speed);
                      }
 
-                       //transform.Translate(Vector3.forward * speed / 3.6f * Time.deltaTime);
-                   
+                     if (inRoute)
+                     {
+                        float oposto = frontWheel.position.y - backWheel.position.y;
+                        float adj = 2.1f;
+                        angle =  Mathf.Atan2(oposto, adj) * Mathf.Rad2Deg;
+                        Debug.Log(angle);
+                        MovePlayer();
+                     }
+
+                       //transform.Translate(Vector3.forward * speed / 3.6f * Time.deltaTime);                   
                  }
                  catch (Exception e){ Debug.LogException(e); }
-             }
-         }
-         else
-         {
-              Debug.Log("Connecting...");
-             GeneralController.controllerInstance.doConnect();
-         }
+            }
+        }
+        else
+        {
+            Debug.Log("Connecting...");
+            GeneralController.controllerInstance.doConnect();
+        }
     }
 
-    private void OnDrawGizmos()
+    /*private void OnDrawGizmos()
     {
         Gizmos.color = Color.magenta;
         Gizmos.DrawSphere(transform.position + transform.rotation * CenterOfMass2, 0.1f);
-    }
+    }*/
 
     void MovePlayer()
     {
@@ -138,7 +152,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnControllerColliderHit(ControllerColliderHit hit) {
-        angle = Vector3.Angle(Vector3.up, hit.normal); // Calc angle between normal and character
-    }
+    /*void OnControllerColliderHit(ControllerColliderHit hit) {
+        angle = Vector3.Angle(Vector3.up, hit.normal);
+        Debug.Log("ang "+ angle); // Calc angle between normal and character
+    }*/
 }
