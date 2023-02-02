@@ -21,13 +21,6 @@ public class Manager : MonoBehaviour
     public void Update()
     {
         //Debug.Log(GeneralController.controllerInstance.getState().stateName);
-        GeneralController context = GeneralController.controllerInstance;
-        State state = context.getState();
-
-        if (state.stateName == "simulating") {
-            Simulating circuit = (Simulating)state;
-            circuit.updateRegistry();
-        }
 
         if (XRController._isVrModeEnabled())
         {

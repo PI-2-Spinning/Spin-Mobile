@@ -40,7 +40,9 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         m_EulerAngle = new Vector3(0f, 1f, 0f);
         inRoute = true;
-
+        
+        InvokeRepeating("updateSimulatingRegistry", .01f, 1f);
+        
         Debug.Log("Player context done!");
     }  
 
@@ -151,9 +153,10 @@ public class PlayerController : MonoBehaviour
             i += 1;
         }
     }
+    void updateSimulatingRegistry() {
+        State state = GeneralController.controllerInstance.getState();
+        Simulating stateSimulating = (Simulating)state;
 
-    /*void OnControllerColliderHit(ControllerColliderHit hit) {
-        angle = Vector3.Angle(Vector3.up, hit.normal);
-        Debug.Log("ang "+ angle); // Calc angle between normal and character
-    }*/
+        stateSimulating.updateRegistry(speed);
+    }
 }

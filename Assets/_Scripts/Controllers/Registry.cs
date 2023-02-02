@@ -5,12 +5,14 @@ using UnityEngine;
 //Classe encarregada de salvar as informações de um circuito
 public class Registry
 {
+    private float totalSpeed;
     private float averageSpeed;
     private float maxSpeed;
     private float travelledDistance;
     private float travelledTime;
     
     public Registry(){
+        totalSpeed = 0;
         maxSpeed = 0;
     }
 
@@ -24,7 +26,7 @@ public class Registry
     }
 
     public float getTravelledDistance(){
-        return travelledDistance;
+        return averageSpeed / travelledTime;
     }
 
     public void setTravelledDistance(float distance){
@@ -35,16 +37,18 @@ public class Registry
         return travelledTime;
     }
 
-    public void setTravelledTime(float time){
-       travelledTime = time;
+    public void setTravelledTime(){
+       travelledTime += 1;
     }
 
     public float getAverageSpeed(){
         return averageSpeed;
     }
 
-    public void setAverageSpeed(){
-        averageSpeed = calculateVelocity(travelledDistance, travelledTime);
+    public void setAverageSpeed(float momentSpeed){
+        totalSpeed += momentSpeed;
+
+        averageSpeed = calculateVelocity(totalSpeed, travelledTime);
     }
 
     public float getMaxSpeed(){
@@ -57,7 +61,7 @@ public class Registry
         }
     }
 
-    public float calculateVelocity(float distance, float time) {
-        return distance / time;
+    public float calculateVelocity(float speed, float time) {
+        return speed / time;
     }
 }
