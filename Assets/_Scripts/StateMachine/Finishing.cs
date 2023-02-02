@@ -2,17 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Finishing : MonoBehaviour
+public class Finishing : State
 {
     // Start is called before the first frame update
-    void Start()
-    {
-        
+    public Finishing(){
+        stateName = "finishing";
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    public override void handle()
     {
-        
+        GeneralController context = GeneralController.controllerInstance;
     }
 }

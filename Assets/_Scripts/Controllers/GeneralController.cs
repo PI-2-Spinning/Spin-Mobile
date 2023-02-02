@@ -3,33 +3,47 @@ using System.Collections;
 using System.Collections.Generic;
 using Google.XR.Cardboard;
 using UnityEngine;
+using UnityEngine.Android;
 
 public class GeneralController : MonoBehaviour
 {
-    private static GeneralController controllerInstance;
+    public static GeneralController controllerInstance { get; private set; }
     private UserData userData;
     private State state;
-    string deviceName = "ESP32";
     public bool isConnected = false;
+    private BluetoothService btService;
+    string[] BT_PERMISSIONS = {"android.permission.BLUETOOTH_CONNECT", "android.permission.BLUETOOTH_SCAN"};
+    string deviceName = "Spin";
 
     private GeneralController(){
-        XRController.initialSetup();
+       /*XRController.initialSetup();
         userData = new UserData();
         state = new Starting(userData);
-        BluetoothService.CreateBluetoothObject();
-        DontDestroyOnLoad(this);
+        BluetoothService.CreateBluetoothObject();*/
     }
 
-    public static GeneralController getGeneralControllerInstance(){
-        if (controllerInstance == null){
-            controllerInstance = new GeneralController();             
+    private void Awake()
+    {
+        if (controllerInstance != null && controllerInstance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            XRController.initialSetup();
+            controllerInstance = this;
+            controllerInstance.userData = new UserData();
+            controllerInstance.state = new Starting(userData);
+            btService = new BluetoothService();
+            btService.CreateBluetoothObject();
+            controllerInstance.state.handle();
         }
         
-        return controllerInstance;
+        DontDestroyOnLoad(gameObject);
     }
 
     public void doConnect(){
-        isConnected = BluetoothService.StartBluetoothConnection(deviceName);
+        isConnected = btService.StartBluetoothConnection(deviceName);
     }
 
     public State getState(){
@@ -42,9 +56,15 @@ public class GeneralController : MonoBehaviour
 
     public void changeState(State newState){
         state = newState;
+        Debug.Log("changed !!!!!!!!! "+state.stateName);
     }
 
     public State GetState(){
         return state;
+    }
+
+    public BluetoothService getBtService() {
+        Permission.RequestUserPermissions(BT_PERMISSIONS);
+        return btService;
     }
 }

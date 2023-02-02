@@ -15,6 +15,7 @@ public class UserData
     private float bicycleRim;
     private float category;
     private int points;
+    private string history;
 
     public UserData(){
         playerName = PlayerPrefs.GetString("name", "");
@@ -22,9 +23,13 @@ public class UserData
         playerHeight = PlayerPrefs.GetInt("height", 0);
         playerWeight = PlayerPrefs.GetFloat("weight", 0f);
         playerAge = PlayerPrefs.GetInt("age", 0);
-        bicycleRim = PlayerPrefs.GetFloat("rim", 0f);
+        bicycleRim = PlayerPrefs.GetFloat("rim", 0.622f);
         category = PlayerPrefs.GetFloat("category", 0f);
         points = PlayerPrefs.GetInt("points", 0);
+        history = PlayerPrefs.GetString("history", "");
+
+        History auxhistory = new History();
+        auxhistory.convertStringToListRegistry();
     }
 
     public void updateUserData(){
@@ -36,12 +41,21 @@ public class UserData
         PlayerPrefs.SetFloat("rim", bicycleRim);
         PlayerPrefs.SetFloat("category", category);
         PlayerPrefs.SetInt("points", points);
+        PlayerPrefs.SetString("history", history);
     }
 
-    public void getInfos(){
-        XRController.ExitVR();
-        Screen.orientation = ScreenOrientation.Portrait;
-        SceneManager.LoadScene("InsertInfo");
+    public bool getInfos(){
+        if(playerAge == 0 || playerName == "" || playerWeight == 0){
+            XRController.ExitVR();
+            Screen.orientation = ScreenOrientation.Portrait;
+            SceneManager.LoadScene("InsertInfo");
+            return false;
+        }
+        else{
+            Debug.Log("User: " + playerName);
+        }
+
+        return true;        
     }
 
     public string getName(){
@@ -105,5 +119,13 @@ public class UserData
 
     public void setPoints(int _points){
         points = _points;
+    }
+
+    public string getHistory(){
+        return history;
+    }
+
+    public void setHistory(string historyString){
+        history = historyString;
     }
 }
