@@ -79,10 +79,12 @@ public class PlayerController : MonoBehaviour
                      resistencia = (resistencia < 0) ? 0 : resistencia;
 
                      timer += Time.deltaTime;
+                     TimeSpan timespan = TimeSpan.FromSeconds(timer);
+                     int minutes = timespan.Minutes;
+                     int sec = timespan.Seconds;
+                     currentTime.text = minutes.ToString("00") + ":" + sec.ToString("00") + " m";
 
-                     currentTime.text = timer.ToString("00:00") + " s";
-
-                     Debug.Log("tempo: " + timer);
+                     Debug.Log("tempo: " + minutes);
 
                      int resistenciaI = (int) resistencia;
                      Debug.Log("Resistencia: " + resistencia + "  " + resistenciaI);
@@ -101,7 +103,7 @@ public class PlayerController : MonoBehaviour
                          speed =  2f * 3.6f * (float) Math.PI * bicycleRim * rpmPneu / 60f;
                          speed = (speed < 0) ? 0 : speed;
 
-                         currentSpeed.text = speed.ToString("0.00") + " km/h";
+                         currentSpeed.text = speed.ToString("0.00") + " Km/h";
 
                          Debug.Log("km/h: " + speed);
                      }
