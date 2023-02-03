@@ -3,14 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using Google.XR.Cardboard;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private CharacterController controller;
+    [SerializeField] private TextMeshProUGUI currentSpeed;
+    [SerializeField] private TextMeshProUGUI currentTime;
+    [SerializeField] private TextMeshProUGUI currentRPM;
     BluetoothService btService;
 
     private float playerWeight, bicycleRim, angle, g = 9.807f;
     public float speed = 0f;
+    public float timer = 0.0f;
     public Transform route;
     public Transform backWheel;
     public Transform frontWheel;
@@ -72,6 +78,12 @@ public class PlayerController : MonoBehaviour
                      resistencia = (resistencia > 100) ? 100 : resistencia;
                      resistencia = (resistencia < 0) ? 0 : resistencia;
 
+                     timer += Time.deltaTime;
+
+                     currentTime.text = timer.ToString("00:00") + " s";
+
+                     Debug.Log("tempo: " + timer);
+
                      int resistenciaI = (int) resistencia;
                      Debug.Log("Resistencia: " + resistencia + "  " + resistenciaI);
                      btService.WritetoBluetooth(resistenciaI.ToString() + "\n");
@@ -82,10 +94,14 @@ public class PlayerController : MonoBehaviour
                          float rpmRolamento = float.Parse(dataIn.Substring(6));
 
                          float rpmPneu = (0.025f/bicycleRim) * rpmRolamento;
+
+                         currentRPM.text = rpmPneu.ToString("0");
                          Debug.Log("RPM Pneu: " + rpmPneu);
 
                          speed =  2f * 3.6f * (float) Math.PI * bicycleRim * rpmPneu / 60f;
                          speed = (speed < 0) ? 0 : speed;
+
+                         currentSpeed.text = speed.ToString("0.00") + " km/h";
 
                          Debug.Log("km/h: " + speed);
                      }

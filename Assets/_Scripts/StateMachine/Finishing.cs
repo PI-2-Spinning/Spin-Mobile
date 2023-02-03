@@ -11,6 +11,6 @@ public class Finishing : State
     
     public override void handle()
     {
-        GeneralController context = GeneralController.controllerInstance;
+        GeneralController.controllerInstance.changeState(new Idle());
     }
 }

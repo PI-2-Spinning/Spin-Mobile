@@ -10,6 +10,9 @@ public class InteractiveObject : MonoBehaviour
     [SerializeField] private GameObject nextFlow;
     [SerializeField] private bool isParent;
     [SerializeField] private bool toSimulate = false;
+    [SerializeField] private bool isPauseButton = false;
+    [SerializeField] private bool isPauseMode = false;
+    [SerializeField] private bool isExitButton = false;
 
     public bool isGazed = false;
     
@@ -55,6 +58,9 @@ public class InteractiveObject : MonoBehaviour
         yield return new WaitForSeconds(seconds);
 
         if(isGazed){
+            if(isExitButton){
+                GeneralController.controllerInstance.getState().handle();
+            }
             if(nextFlow != null){
                 for (int i = 0; i < gameObject.transform.childCount; i++){
                     var child = gameObject.transform.GetChild(i).gameObject;

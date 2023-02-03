@@ -547,6 +547,9 @@ MonoBehaviour:
   nextFlow: {fileID: 1189762167}
   isParent: 1
   toSimulate: 0
+  isPauseButton: 0
+  isPauseMode: 0
+  isExitButton: 0
   isGazed: 0
 --- !u!1 &142839566
 GameObject:
@@ -2111,7 +2114,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &854905463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2129,6 +2132,9 @@ MonoBehaviour:
   nextFlow: {fileID: 854905462}
   isParent: 0
   toSimulate: 0
+  isPauseButton: 0
+  isPauseMode: 0
+  isExitButton: 0
   isGazed: 0
 --- !u!65 &854905464
 BoxCollider:
@@ -2567,6 +2573,9 @@ MonoBehaviour:
   nextFlow: {fileID: 40919614}
   isParent: 0
   toSimulate: 0
+  isPauseButton: 0
+  isPauseMode: 0
+  isExitButton: 0
   isGazed: 0
 --- !u!65 &1076467006
 BoxCollider:
@@ -3269,6 +3278,9 @@ MonoBehaviour:
   nextFlow: {fileID: 0}
   isParent: 0
   toSimulate: 1
+  isPauseButton: 0
+  isPauseMode: 0
+  isExitButton: 0
   isGazed: 0
 --- !u!65 &1509881923
 BoxCollider:
@@ -3724,6 +3736,9 @@ MonoBehaviour:
   nextFlow: {fileID: 0}
   isParent: 1
   toSimulate: 0
+  isPauseButton: 0
+  isPauseMode: 0
+  isExitButton: 0
   isGazed: 0
 --- !u!65 &1710119735
 BoxCollider:
@@ -4100,6 +4115,9 @@ MonoBehaviour:
   nextFlow: {fileID: 134402169}
   isParent: 0
   toSimulate: 0
+  isPauseButton: 0
+  isPauseMode: 0
+  isExitButton: 0
   isGazed: 0
 --- !u!65 &1793089059
 BoxCollider:
@@ -4453,6 +4471,9 @@ MonoBehaviour:
   nextFlow: {fileID: 1189762167}
   isParent: 0
   toSimulate: 0
+  isPauseButton: 0
+  isPauseMode: 0
+  isExitButton: 0
   isGazed: 0
 --- !u!65 &1985308839
 BoxCollider:
