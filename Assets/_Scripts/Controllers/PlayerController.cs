@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Google.XR.Cardboard;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class PlayerController : MonoBehaviour
@@ -179,6 +180,13 @@ public class PlayerController : MonoBehaviour
                                 }
                             }
                         }
+
+                         float secondTimer = 0.0f;
+                         timer += Time.deltaTime;
+                         if(timer >= 250f){
+                            SceneManager.LoadScene("SpinMobileMainScene");
+
+                         }
                      }
 
                        //transform.Translate(Vector3.forward * speed / 3.6f * Time.deltaTime);                   
