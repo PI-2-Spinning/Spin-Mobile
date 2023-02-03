@@ -12,6 +12,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI currentSpeed;
     [SerializeField] private TextMeshProUGUI currentTime;
     [SerializeField] private TextMeshProUGUI currentRPM;
+    [SerializeField] private TextMeshProUGUI averageSpeed;
+    [SerializeField] private TextMeshProUGUI totalTime;
+    [SerializeField] private TextMeshProUGUI totalDistance;
+    [SerializeField] private TextMeshProUGUI maxSpeed;
     [SerializeField] private GameObject inGameTablet;
     [SerializeField] private GameObject endGameTablet;
 
@@ -127,6 +131,10 @@ public class PlayerController : MonoBehaviour
                         int minutes = timespan.Minutes;
                         int sec = timespan.Seconds;
                         currentTime.text = minutes.ToString("00") + ":" + sec.ToString("00") + " m";
+                        totalTime.text = minutes.ToString("00") + ":" + sec.ToString("00") + " m";
+                        averageSpeed.text = simState.registry.getAverageSpeed().ToString("0.00") + " Km/h";
+                        totalDistance.text = simState.registry.getTravelledDistance().ToString("0.00") + " Km";
+                        maxSpeed.text = simState.registry.getMaxSpeed().ToString("0.00") + " Km/h";
 
                         Debug.Log("tempo: " + minutes);
 
@@ -237,12 +245,12 @@ public class PlayerController : MonoBehaviour
 
     public void updateSimulatingRegistry() {
         #if UNITY_EDITOR
-            simState.updateRegistry(speed);
+            simState.updateRegistry(speed, timer);
         #else
             State state = GeneralController.controllerInstance.getState();
             Simulating simState = (Simulating)state;
 
-            simState.updateRegistry(speed);
+            simState.updateRegistry(speed, timer);
         #endif
     }
 }

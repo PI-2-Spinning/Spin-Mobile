@@ -30,6 +30,10 @@ public class Manager : MonoBehaviour
                 Application.Quit();
             }
 
+            if (XRController._isVrModeEnabled()){
+                Api.Recenter();
+            }
+
             Api.UpdateScreenParams();
         }
         
