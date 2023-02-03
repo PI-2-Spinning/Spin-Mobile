@@ -12,6 +12,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI currentSpeed;
     [SerializeField] private TextMeshProUGUI currentTime;
     [SerializeField] private TextMeshProUGUI currentRPM;
+    [SerializeField] private GameObject inGameTablet;
+    [SerializeField] private GameObject endGameTablet;
+
     BluetoothService btService;
 
     private float playerWeight, bicycleRim, angle, g = 9.807f;
@@ -67,9 +70,9 @@ public class PlayerController : MonoBehaviour
              Api.UpdateScreenParams();
         }
         
-        if (GeneralController.controllerInstance.isConnected)
+        if (true)
         {
-             if(GeneralController.controllerInstance.getState().stateName == "Simulating")
+             if(true)
             {
                  try{
                      // float resistencia = playerWeight * (int) Math.Sin(angle) + 0.65f * playerWeight * (float) Math.Cos(angle);
@@ -80,9 +83,9 @@ public class PlayerController : MonoBehaviour
 
                      int resistenciaI = (int) resistencia;
                      Debug.Log("Resistencia: " + resistencia + "  " + resistenciaI);
-                     btService.WritetoBluetooth(resistenciaI.ToString() + "\n");
+                    //  btService.WritetoBluetooth(resistenciaI.ToString() + "\n");
 
-                     string dataIn = btService.ReadFromBluetooth();
+                     string dataIn = "rpm = 7000";   // btService.ReadFromBluetooth();
                      if (dataIn.Length > 0){
                          Debug.Log(dataIn);                    
                          float rpmRolamento = float.Parse(dataIn.Substring(6));
@@ -120,9 +123,55 @@ public class PlayerController : MonoBehaviour
                         currentTime.text = minutes.ToString("00") + ":" + sec.ToString("00") + " m";
 
                         Debug.Log("tempo: " + minutes);
+
+                        inGameTablet.SetActive(true);
+                        for (int i = 0; i < inGameTablet.transform.childCount; i++){
+                            var child = inGameTablet.transform.GetChild(i).gameObject;
+                            child.SetActive(true);
+                            if (child != null){
+                                for (int j = 0; j < child.transform.childCount; j++){
+                                    var childOfChild = child.transform.GetChild(j).gameObject;
+                                    childOfChild.SetActive(true);
+                                }
+                            }
+                        }
+
+                        endGameTablet.SetActive(false);
+                        for (int i = 0; i < endGameTablet.transform.childCount; i++){
+                            var child = endGameTablet.transform.GetChild(i).gameObject;
+                            child.SetActive(false);
+                            if (child != null){
+                                for (int j = 0; j < child.transform.childCount; j++){
+                                    var childOfChild = child.transform.GetChild(j).gameObject;
+                                    childOfChild.SetActive(false);
+                                }
+                            }
+                        }
                         MovePlayer();
                      }else{
+                        inGameTablet.SetActive(false);
+                        for (int i = 0; i < inGameTablet.transform.childCount; i++){
+                            var child = inGameTablet.transform.GetChild(i).gameObject;
+                            child.SetActive(false);
+                            if (child != null){
+                                for (int j = 0; j < child.transform.childCount; j++){
+                                    var childOfChild = child.transform.GetChild(j).gameObject;
+                                    childOfChild.SetActive(false);
+                                }
+                            }
+                        }
 
+                        endGameTablet.SetActive(true);
+                        for (int i = 0; i < endGameTablet.transform.childCount; i++){
+                            var child = endGameTablet.transform.GetChild(i).gameObject;
+                            child.SetActive(true);
+                            if (child != null){
+                                for (int j = 0; j < child.transform.childCount; j++){
+                                    var childOfChild = child.transform.GetChild(j).gameObject;
+                                    childOfChild.SetActive(true);
+                                }
+                            }
+                        }
                      }
 
                        //transform.Translate(Vector3.forward * speed / 3.6f * Time.deltaTime);                   
