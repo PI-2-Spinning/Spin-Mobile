@@ -67,9 +67,9 @@ public class PlayerController : MonoBehaviour
              Api.UpdateScreenParams();
         }
         
-        if (GeneralController.controllerInstance.isConnected)
+        if (true/*GeneralController.controllerInstance.isConnected*/)
         {
-             if(GeneralController.controllerInstance.getState().stateName == "Simulating")
+             if(true/*GeneralController.controllerInstance.getState().stateName == "Simulating"*/)
              {
                  try{
                      // float resistencia = playerWeight * (int) Math.Sin(angle) + 0.65f * playerWeight * (float) Math.Cos(angle);
@@ -78,26 +78,22 @@ public class PlayerController : MonoBehaviour
                      resistencia = (resistencia > 100) ? 100 : resistencia;
                      resistencia = (resistencia < 0) ? 0 : resistencia;
 
-                     timer += Time.deltaTime;
-                     TimeSpan timespan = TimeSpan.FromSeconds(timer);
-                     int minutes = timespan.Minutes;
-                     int sec = timespan.Seconds;
-                     currentTime.text = minutes.ToString("00") + ":" + sec.ToString("00") + " m";
-
-                     Debug.Log("tempo: " + minutes);
-
                      int resistenciaI = (int) resistencia;
                      Debug.Log("Resistencia: " + resistencia + "  " + resistenciaI);
-                     btService.WritetoBluetooth(resistenciaI.ToString() + "\n");
+                     //btService.WritetoBluetooth(resistenciaI.ToString() + "\n");
 
-                     string dataIn = btService.ReadFromBluetooth();
+                     string dataIn = "rpm = 0"; //btService.ReadFromBluetooth();
                      if (dataIn.Length > 0){
                          Debug.Log(dataIn);                    
                          float rpmRolamento = float.Parse(dataIn.Substring(6));
 
                          float rpmPneu = (0.025f/bicycleRim) * rpmRolamento;
 
+                         if(rpmRolamento >= 5000){
+                            currentRPM.color = new Color(139, 0, 0, 255);
+                         }   
                          currentRPM.text = rpmPneu.ToString("0");
+                         
                          Debug.Log("RPM Pneu: " + rpmPneu);
 
                          speed =  2f * 3.6f * (float) Math.PI * bicycleRim * rpmPneu / 60f;
@@ -114,7 +110,17 @@ public class PlayerController : MonoBehaviour
                         float adj = 2.1f;
                         angle =  Mathf.Atan2(oposto, adj) * Mathf.Rad2Deg;
                         Debug.Log(angle);
+
+                        timer += Time.deltaTime;
+                        TimeSpan timespan = TimeSpan.FromSeconds(timer);
+                        int minutes = timespan.Minutes;
+                        int sec = timespan.Seconds;
+                        currentTime.text = minutes.ToString("00") + ":" + sec.ToString("00") + " m";
+
+                        Debug.Log("tempo: " + minutes);
                         MovePlayer();
+                     }else{
+
                      }
 
                        //transform.Translate(Vector3.forward * speed / 3.6f * Time.deltaTime);                   
@@ -125,7 +131,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             Debug.Log("Connecting...");
-            GeneralController.controllerInstance.doConnect();
+            //GeneralController.controllerInstance.doConnect();
         }
     }
 
