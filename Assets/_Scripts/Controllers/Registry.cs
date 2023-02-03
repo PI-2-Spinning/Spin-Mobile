@@ -26,7 +26,8 @@ public class Registry
     }
 
     public float getTravelledDistance(){
-        return averageSpeed / travelledTime;
+        float convert = averageSpeed / 3.6f;
+        return convert * travelledTime;
     }
 
     public void setTravelledDistance(float distance){
