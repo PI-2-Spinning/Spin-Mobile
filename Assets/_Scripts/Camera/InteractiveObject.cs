@@ -24,12 +24,6 @@ public class InteractiveObject : MonoBehaviour
         myRenderer.material.color = inactiveColor;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void OnPointerEnter()
     {
         GazeAt(true);

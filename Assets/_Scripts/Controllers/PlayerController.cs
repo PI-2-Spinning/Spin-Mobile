@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
         if (GeneralController.controllerInstance.isConnected)
         {
              if(GeneralController.controllerInstance.getState().stateName == "Simulating")
-             {
+            {
                  try{
                      // float resistencia = playerWeight * (int) Math.Sin(angle) + 0.65f * playerWeight * (float) Math.Cos(angle);
                      // resistencia = (resistencia * 100)/117;
@@ -91,7 +91,9 @@ public class PlayerController : MonoBehaviour
 
                          if(rpmRolamento >= 5000){
                             currentRPM.color = new Color(139, 0, 0, 255);
-                         }   
+                         } else {
+                            currentRPM.color = new Color(1, 45, 252, 255);
+                         }
                          currentRPM.text = rpmPneu.ToString("0");
                          
                          Debug.Log("RPM Pneu: " + rpmPneu);
@@ -131,7 +133,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             Debug.Log("Connecting...");
-            //GeneralController.controllerInstance.doConnect();
+            GeneralController.controllerInstance.doConnect();
         }
     }
 
