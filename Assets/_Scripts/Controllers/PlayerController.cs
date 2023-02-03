@@ -67,9 +67,9 @@ public class PlayerController : MonoBehaviour
              Api.UpdateScreenParams();
         }
         
-        if (true/*GeneralController.controllerInstance.isConnected*/)
+        if (GeneralController.controllerInstance.isConnected)
         {
-             if(true/*GeneralController.controllerInstance.getState().stateName == "Simulating"*/)
+             if(GeneralController.controllerInstance.getState().stateName == "Simulating")
              {
                  try{
                      // float resistencia = playerWeight * (int) Math.Sin(angle) + 0.65f * playerWeight * (float) Math.Cos(angle);
@@ -80,9 +80,9 @@ public class PlayerController : MonoBehaviour
 
                      int resistenciaI = (int) resistencia;
                      Debug.Log("Resistencia: " + resistencia + "  " + resistenciaI);
-                     //btService.WritetoBluetooth(resistenciaI.ToString() + "\n");
+                     btService.WritetoBluetooth(resistenciaI.ToString() + "\n");
 
-                     string dataIn = "rpm = 0"; //btService.ReadFromBluetooth();
+                     string dataIn = btService.ReadFromBluetooth();
                      if (dataIn.Length > 0){
                          Debug.Log(dataIn);                    
                          float rpmRolamento = float.Parse(dataIn.Substring(6));
