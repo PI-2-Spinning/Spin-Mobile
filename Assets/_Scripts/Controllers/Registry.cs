@@ -6,6 +6,7 @@ using UnityEngine;
 public class Registry
 {
     private float totalSpeed;
+    
     private float averageSpeed;
     private float maxSpeed;
     private float travelledDistance;
@@ -14,6 +15,7 @@ public class Registry
     public Registry(){
         totalSpeed = 0;
         maxSpeed = 0;
+        averageSpeed = 0;
     }
 
     public Registry(float averageSpeedHistory, float maxSpeedHistory, float travelledDistanceHistory, float travelledTimeHistory){
@@ -26,7 +28,8 @@ public class Registry
     }
 
     public float getTravelledDistance(){
-        return averageSpeed / travelledTime;
+        float convert = averageSpeed / 3.6f;
+        return convert * travelledTime;
     }
 
     public void setTravelledDistance(float distance){
@@ -55,9 +58,9 @@ public class Registry
         return maxSpeed;
     }
 
-    public void setMaxSpeed(){
-        if (averageSpeed > maxSpeed) {
-            maxSpeed = averageSpeed;
+    public void setMaxSpeed(float speed){
+        if (speed > maxSpeed) {
+            maxSpeed = speed;
         }
     }
 

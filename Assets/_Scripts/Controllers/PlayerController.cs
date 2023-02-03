@@ -32,6 +32,10 @@ public class PlayerController : MonoBehaviour
     bool inRoute;
     int i = 1;
 
+    #if UNITY_EDITOR
+    Simulating simState;
+    #endif
+
     void Start() {
         #if !UNITY_EDITOR
         btService = GeneralController.controllerInstance.getBtService();
@@ -42,7 +46,9 @@ public class PlayerController : MonoBehaviour
         #if UNITY_EDITOR
         playerWeight = 80;
         bicycleRim = 0.622f;
+        simState = new Simulating();
         #endif
+
         rb = GetComponent<Rigidbody>();
         m_EulerAngle = new Vector3(0f, 1f, 0f);
         inRoute = true;
@@ -179,10 +185,15 @@ public class PlayerController : MonoBehaviour
             i += 1;
         }
     }
-    void updateSimulatingRegistry() {
-        State state = GeneralController.controllerInstance.getState();
-        Simulating stateSimulating = (Simulating)state;
 
-        stateSimulating.updateRegistry(speed);
+    public void updateSimulatingRegistry() {
+        #if UNITY_EDITOR
+            simState.updateRegistry(speed);
+        #else
+            State state = GeneralController.controllerInstance.getState();
+            Simulating simState = (Simulating)state;
+
+            simState.updateRegistry(speed);
+        #endif
     }
 }
