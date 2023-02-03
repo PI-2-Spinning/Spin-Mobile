@@ -39,9 +39,7 @@ public class PlayerController : MonoBehaviour
     bool inRoute;
     int i = 1;
 
-    #if UNITY_EDITOR
     Simulating simState;
-    #endif
 
     void Start() {
         #if !UNITY_EDITOR
@@ -80,10 +78,10 @@ public class PlayerController : MonoBehaviour
              Api.UpdateScreenParams();
         }
         
-        if (true)
+        if (GeneralController.controllerInstance.isConnected)
         {
-             if(true)
-            {
+             if(GeneralController.controllerInstance.getState().stateName == "Simulating")
+             {
                  try{
                      // float resistencia = playerWeight * (int) Math.Sin(angle) + 0.65f * playerWeight * (float) Math.Cos(angle);
                      // resistencia = (resistencia * 100)/117;
@@ -93,20 +91,15 @@ public class PlayerController : MonoBehaviour
 
                      int resistenciaI = (int) resistencia;
                      Debug.Log("Resistencia: " + resistencia + "  " + resistenciaI);
-                    //  btService.WritetoBluetooth(resistenciaI.ToString() + "\n");
+                     btService.WritetoBluetooth(resistenciaI.ToString() + "\n");
 
-                     string dataIn = "rpm = 7000";   // btService.ReadFromBluetooth();
+                     string dataIn = btService.ReadFromBluetooth();
                      if (dataIn.Length > 0){
                          Debug.Log(dataIn);                    
                          float rpmRolamento = float.Parse(dataIn.Substring(6));
 
                          float rpmPneu = (0.025f/bicycleRim) * rpmRolamento;
 
-                         if(rpmRolamento >= 5000){
-                            currentRPM.color = new Color(139, 0, 0, 255);
-                         } else {
-                            currentRPM.color = new Color(1, 45, 252, 255);
-                         }
                          currentRPM.text = rpmPneu.ToString("0");
                          
                          Debug.Log("RPM Pneu: " + rpmPneu);
@@ -244,13 +237,9 @@ public class PlayerController : MonoBehaviour
     }
 
     public void updateSimulatingRegistry() {
-        #if UNITY_EDITOR
-            simState.updateRegistry(speed, timer);
-        #else
-            State state = GeneralController.controllerInstance.getState();
-            Simulating simState = (Simulating)state;
+        State state = GeneralController.controllerInstance.getState();
+         simState = (Simulating)state;
 
-            simState.updateRegistry(speed, timer);
-        #endif
+        simState.updateRegistry(speed, timer);
     }
 }
