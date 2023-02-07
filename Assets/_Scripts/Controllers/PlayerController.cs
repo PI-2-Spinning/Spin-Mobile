@@ -182,8 +182,8 @@ public class PlayerController : MonoBehaviour
                         }
 
                          float secondTimer = 0.0f;
-                         timer += Time.deltaTime;
-                         if(timer >= 250f){
+                         secondTimer += Time.deltaTime;
+                         if(secondTimer >= 40){
                             SceneManager.LoadScene("SpinMobileMainScene");
 
                          }

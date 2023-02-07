@@ -30,7 +30,7 @@ public class Manager : MonoBehaviour
                 Application.Quit();
             }
 
-            if (XRController._isVrModeEnabled()){
+            if (XRController._isScreenTouched()){
                 Api.Recenter();
             }
 
