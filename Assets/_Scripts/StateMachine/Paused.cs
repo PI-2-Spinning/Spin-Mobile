@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Paused : MonoBehaviour
+public class Paused : State
 {
     // Start is called before the first frame update
-    void Start()
-    {
+    public Paused(){
+        stateName = "paused";
         
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    
+    public override void handle()
+    {   
+        if(GeneralController.controllerInstance.getUserData().getInfos())
+            GeneralController.controllerInstance.changeState(new Simulating());
     }
 }

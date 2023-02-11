@@ -6,7 +6,7 @@ using Random = System.Random;
 
 public class Simulating : State
 {
-    private Registry registry;
+    public Registry registry;
 
     public Simulating(){
         stateName = "Simulating";
@@ -15,10 +15,10 @@ public class Simulating : State
         registry = new Registry();
     }
 
-    public void updateRegistry(float speed) {
+    public void updateRegistry(float speed, float timer) {
         Debug.Log("updating registry");
 
-        registry.setTravelledTime();
+        registry.setTravelledTime(timer);
         registry.setAverageSpeed(speed);
         registry.setMaxSpeed(speed);
 
@@ -58,6 +58,6 @@ public class Simulating : State
         history.addHistory(registry);
         history.saveHistoryOnUserData();
 
-        GeneralController context = GeneralController.controllerInstance;
+        GeneralController.controllerInstance.changeState(new Finishing());
     }
 }

@@ -40,8 +40,8 @@ public class Registry
         return travelledTime;
     }
 
-    public void setTravelledTime(){
-       travelledTime += 1;
+    public void setTravelledTime(float time){
+       travelledTime = time;
     }
 
     public float getAverageSpeed(){

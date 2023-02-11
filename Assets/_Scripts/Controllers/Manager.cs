@@ -30,6 +30,10 @@ public class Manager : MonoBehaviour
                 Application.Quit();
             }
 
+            if (XRController._isScreenTouched()){
+                Api.Recenter();
+            }
+
             Api.UpdateScreenParams();
         }
         

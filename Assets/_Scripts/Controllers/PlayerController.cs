@@ -3,14 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using Google.XR.Cardboard;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private CharacterController controller;
+    [SerializeField] private TextMeshProUGUI currentSpeed;
+    [SerializeField] private TextMeshProUGUI currentTime;
+    [SerializeField] private TextMeshProUGUI currentRPM;
+    [SerializeField] private TextMeshProUGUI averageSpeed;
+    [SerializeField] private TextMeshProUGUI totalTime;
+    [SerializeField] private TextMeshProUGUI totalDistance;
+    [SerializeField] private TextMeshProUGUI maxSpeed;
+    [SerializeField] private GameObject inGameTablet;
+    [SerializeField] private GameObject endGameTablet;
+
     BluetoothService btService;
 
     private float playerWeight, bicycleRim, angle, g = 9.807f;
     public float speed = 0f;
+    public float timer = 0.0f;
     public Transform route;
     public Transform backWheel;
     public Transform frontWheel;
@@ -26,9 +40,7 @@ public class PlayerController : MonoBehaviour
     bool inRoute;
     int i = 1;
 
-    #if UNITY_EDITOR
     Simulating simState;
-    #endif
 
     void Start() {
         #if !UNITY_EDITOR
@@ -88,10 +100,15 @@ public class PlayerController : MonoBehaviour
                          float rpmRolamento = float.Parse(dataIn.Substring(6));
 
                          float rpmPneu = (0.025f/bicycleRim) * rpmRolamento;
+
+                         currentRPM.text = rpmPneu.ToString("0");
+                         
                          Debug.Log("RPM Pneu: " + rpmPneu);
 
                          speed =  2f * 3.6f * (float) Math.PI * bicycleRim * rpmPneu / 60f;
                          speed = (speed < 0) ? 0 : speed;
+
+                         currentSpeed.text = speed.ToString("0.00") + " Km/h";
 
                          Debug.Log("km/h: " + speed);
                      }
@@ -102,7 +119,74 @@ public class PlayerController : MonoBehaviour
                         float adj = 2.1f;
                         angle =  Mathf.Atan2(oposto, adj) * Mathf.Rad2Deg;
                         Debug.Log(angle);
+
+                        timer += Time.deltaTime;
+                        TimeSpan timespan = TimeSpan.FromSeconds(timer);
+                        int minutes = timespan.Minutes;
+                        int sec = timespan.Seconds;
+                        currentTime.text = minutes.ToString("00") + ":" + sec.ToString("00") + " m";
+                        totalTime.text = minutes.ToString("00") + ":" + sec.ToString("00") + " m";
+                        averageSpeed.text = simState.registry.getAverageSpeed().ToString("0.00") + " Km/h";
+                        totalDistance.text = simState.registry.getTravelledDistance().ToString("0.00") + " Km";
+                        maxSpeed.text = simState.registry.getMaxSpeed().ToString("0.00") + " Km/h";
+
+                        Debug.Log("tempo: " + minutes);
+
+                        inGameTablet.SetActive(true);
+                        for (int i = 0; i < inGameTablet.transform.childCount; i++){
+                            var child = inGameTablet.transform.GetChild(i).gameObject;
+                            child.SetActive(true);
+                            if (child != null){
+                                for (int j = 0; j < child.transform.childCount; j++){
+                                    var childOfChild = child.transform.GetChild(j).gameObject;
+                                    childOfChild.SetActive(true);
+                                }
+                            }
+                        }
+
+                        endGameTablet.SetActive(false);
+                        for (int i = 0; i < endGameTablet.transform.childCount; i++){
+                            var child = endGameTablet.transform.GetChild(i).gameObject;
+                            child.SetActive(false);
+                            if (child != null){
+                                for (int j = 0; j < child.transform.childCount; j++){
+                                    var childOfChild = child.transform.GetChild(j).gameObject;
+                                    childOfChild.SetActive(false);
+                                }
+                            }
+                        }
                         MovePlayer();
+                     }else{
+                        inGameTablet.SetActive(false);
+                        for (int i = 0; i < inGameTablet.transform.childCount; i++){
+                            var child = inGameTablet.transform.GetChild(i).gameObject;
+                            child.SetActive(false);
+                            if (child != null){
+                                for (int j = 0; j < child.transform.childCount; j++){
+                                    var childOfChild = child.transform.GetChild(j).gameObject;
+                                    childOfChild.SetActive(false);
+                                }
+                            }
+                        }
+
+                        endGameTablet.SetActive(true);
+                        for (int i = 0; i < endGameTablet.transform.childCount; i++){
+                            var child = endGameTablet.transform.GetChild(i).gameObject;
+                            child.SetActive(true);
+                            if (child != null){
+                                for (int j = 0; j < child.transform.childCount; j++){
+                                    var childOfChild = child.transform.GetChild(j).gameObject;
+                                    childOfChild.SetActive(true);
+                                }
+                            }
+                        }
+
+                         float secondTimer = 0.0f;
+                         secondTimer += Time.deltaTime;
+                         if(secondTimer >= 40){
+                            SceneManager.LoadScene("SpinMobileMainScene");
+
+                         }
                      }
 
                        //transform.Translate(Vector3.forward * speed / 3.6f * Time.deltaTime);                   
@@ -161,13 +245,9 @@ public class PlayerController : MonoBehaviour
     }
 
     public void updateSimulatingRegistry() {
-        #if UNITY_EDITOR
-            simState.updateRegistry(speed);
-        #else
-            State state = GeneralController.controllerInstance.getState();
-            Simulating simState = (Simulating)state;
+        State state = GeneralController.controllerInstance.getState();
+         simState = (Simulating)state;
 
-            simState.updateRegistry(speed);
-        #endif
+        simState.updateRegistry(speed, timer);
     }
 }
