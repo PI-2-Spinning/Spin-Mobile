@@ -10,18 +10,11 @@
 
 ### 🏆 Sobre o produto
 <p style="text-align: justify;">&emsp;&emsp; 
-A pandemia de COVID-19 teve um impacto significativo na prática de exercícios
-físicos ao redor do mundo. Com o fechamento de academias, parques e outros locais de
-treinamento, muitas pessoas tiveram que procurar maneiras alternativas de manter sua
-forma física e saúde. assim, diversas pessoas começaram a praticar atividades físicas em
-casa, como o ciclismo indoor.
+A pandemia de COVID-19 teve um impacto significativo na prática de exercícios físicos ao redor do mundo. Com o fechamento de academias, parques e outros locais de treinamento, muitas pessoas tiveram que procurar maneiras alternativas de manter sua forma física e saúde. assim, diversas pessoas começaram a praticar atividades físicas em casa, como o ciclismo indoor.
 </p>
 
 <p style="text-align: justify;">&emsp;&emsp; 
-Sendo assim, observa-se que a aplicação da realidade virtual, bem como o aperfei-
-çoamento de aspectos estruturais e eletrônicos, tem um alto potencial para incrementar
-a atratividade da prática do ciclismo indoor, desenvolvendo um produto inovador e de
-grande impacto na vida do usuário.
+Sendo assim, observa-se que a aplicação da realidade virtual, bem como o aperfeiçoamento de aspectos estruturais e eletrônicos, tem um alto potencial para incrementar a atratividade da prática do ciclismo indoor, desenvolvendo um produto inovador e de grande impacto na vida do usuário.
 </p>
 
 ### 🚀 Entrega Final
