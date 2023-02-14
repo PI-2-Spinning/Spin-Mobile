@@ -8,8 +8,6 @@
 
 <p align="center">Plataforma para a prática de Ciclismo Indoor imersiva através de Realidade Virtual</p>
 
----
-
 ### 🏆 Sobre o produto
 <p style="text-align: justify;">&emsp;&emsp; 
 A pandemia de COVID-19 teve um impacto significativo na prática de exercícios
