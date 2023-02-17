@@ -20,4 +20,4 @@ Sendo assim, observa-se que a aplicação da realidade virtual, bem como o aperf
 ### 🚀 Entrega Final
 
 - Relatório Final: [pi2_relatorio_spin.pdf](https://github.com/PI-2-Spinning/Spin-Mobile/files/10732807/pi2_relatorio_spin.pdf)
-- Drive do Projeto: [PI 2 - Drive Entrega Final](https://drive.google.com/drive/folders/1YWmIjEk20VuwQo6i_AMh3VKQson7TZkG)
+- Drive do Projeto: [PI 2 - Drive Entrega Final](https://drive.google.com/drive/folders/1mtpAo6tozcjd_m9U4_pm34f1Zr_27RwR?usp=sharing)
